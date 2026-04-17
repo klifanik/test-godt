@@ -22,7 +22,7 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 [sub_resource type="BoxMesh" id="BoxMesh_4xowi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a202f"]
-albedo_color = Color(0.30688858, 1, 0.1319544, 1)
+albedo_color = Color(0.4506483, 0.4506483, 0.45064825, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a202f"]
 size = Vector3(100, 0.3, 100)
@@ -48,7 +48,7 @@ environment = SubResource("Environment_noarx")
 transform = Transform3D(1, 0, 0, 0, 0.014677674, 0.99989235, 0, -0.99989235, 0.014677674, 0, 10.60083, 0)
 
 [node name="Zombie" parent="." unique_id=936848363 instance=ExtResource("2_noarx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3046808, 26.177734)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8005483, 1.3046808, 26.177734)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=990591457]
 navigation_mesh = SubResource("NavigationMesh_noarx")
