@@ -70,10 +70,10 @@ autostart = true
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=248208044]
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=166066999]
-offset_left = 765.0
-offset_top = 22.0
-offset_right = 1141.0
-offset_bottom = 84.0
+offset_left = 761.0
+offset_top = 564.0
+offset_right = 1137.0
+offset_bottom = 626.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/background = SubResource("StyleBoxFlat_a0tk4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_r3fl7")
