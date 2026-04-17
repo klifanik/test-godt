@@ -5,16 +5,22 @@ extends CharacterBody3D
 @onready var pos: Node3D = $head/pistol/pos
 @onready var head: Node3D = $head
 
+@onready var health_bar = $"../CanvasLayer/ProgressBar"
+
 const BUL = preload("res://bullet.tscn")
 
 const MOUSE_SENSITIVITY = 0.002
 var camera_pitch: float = 0.0
+
+var health = 100
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	health_bar.max_value = 100
+	health_bar.value = health
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("attack"):
@@ -42,6 +48,19 @@ func _input(event: InputEvent) -> void:
 		camera_pitch -= event.relative.y * MOUSE_SENSITIVITY
 		camera_pitch = clamp(camera_pitch, deg_to_rad(-89), deg_to_rad(89))
 		head.rotation.x = camera_pitch
+		
+func take_damage(amount: int):
+	health -= amount
+	print("Твое здоровье: ", health)
+	health_bar.value = health
+	# Здесь можно добавить эффект тряски камеры или красный экран
+	if health <= 0:
+		die()
+		
+func die():
+	if is_inside_tree():
+		print("Игрок погиб!")
+		get_tree().reload_current_scene()
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():

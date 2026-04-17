@@ -27,6 +27,12 @@ albedo_color = Color(0.30688858, 1, 0.1319544, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_a202f"]
 size = Vector3(100, 0.3, 100)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a0tk4"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3fl7"]
+bg_color = Color(5.5711344e-06, 0.4394379, 0.061797544, 1)
+
 [node name="main" type="Node3D" unique_id=238427842]
 script = ExtResource("1_a0tk4")
 
@@ -60,3 +66,14 @@ shape = SubResource("BoxShape3D_a202f")
 [node name="Timer" type="Timer" parent="." unique_id=1889506635]
 wait_time = 3.0
 autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=248208044]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=166066999]
+offset_left = 765.0
+offset_top = 22.0
+offset_right = 1141.0
+offset_bottom = 84.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_a0tk4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_r3fl7")

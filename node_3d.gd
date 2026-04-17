@@ -16,16 +16,12 @@ func _on_spawn_timer_timeout():
 func spawn_zombie():
 	var zombie = zombie_scene.instantiate()
 	
-	# Генерируем случайную точку
-	var random_pos = Vector3(
-		randf_range(-spawn_range, spawn_range),
-		1.0,
-		randf_range(-spawn_range, spawn_range)
-	)
-	
-	# Находим ближайшую точку на навигационной сетке
-	var map = get_world_3d().navigation_map
-	var safe_pos = NavigationServer3D.map_get_closest_point(map, random_pos)
-	
-	zombie.global_position = safe_pos
+	# СНАЧАЛА добавляем в дерево
 	add_child(zombie)
+	
+	# ТЕПЕРЬ задаем позицию
+	var random_x = randf_range(-spawn_range, spawn_range)
+	var random_z = randf_range(-spawn_range, spawn_range)
+	zombie.global_position = Vector3(random_x, 2.0, random_z)
+	
+	print("Зомби появился в: ", zombie.global_position)

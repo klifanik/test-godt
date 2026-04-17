@@ -3,6 +3,12 @@ extends CharacterBody3D
 @export var speed = 3.0
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
+@export var attack_damage = 10
+@export var attack_range = 1.5
+@export var attack_cooldown = 1.0 # Задержка между ударами
+
+var can_attack = true
+
 var player = null
 
 func _ready() -> void:
@@ -25,6 +31,13 @@ func find_player():
 func _physics_process(delta: float) -> void:
 	if not player or not is_instance_valid(player):
 		return
+		
+	# Расстояние до игрока
+	var dist = global_position.distance_to(player.global_position)
+	
+	# Если зомби близко и может атаковать
+	if dist <= attack_range and can_attack:
+		attack_player()
 		
 	# Обновляем цель (позицию игрока)
 	nav_agent.target_position = player.global_position
@@ -58,3 +71,18 @@ func _physics_process(delta: float) -> void:
 # Функция, которую вызовет пуля при попадании
 func hit():
 	queue_free() # Удаляет зомби из сцены
+	
+func attack_player():
+	# Проверка: если зомби уже удаляется или не в дереве, ничего не делаем
+	if not is_inside_tree() or not player:
+		return
+		
+	can_attack = false
+	if player.has_method("take_damage"):
+		player.take_damage(attack_damage)
+	
+	# Безопасный способ создания таймера
+	var tree = get_tree()
+	if tree:
+		await tree.create_timer(attack_cooldown).timeout
+		can_attack = true
