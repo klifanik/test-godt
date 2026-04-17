@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bt8ggqi8k7wu1"]
+
+[ext_resource type="Script" uid="uid://bnq4gh1wrv0jt" path="res://node_3d.gd" id="1_a0tk4"]
+[ext_resource type="PackedScene" uid="uid://cdr7ehobppgxk" path="res://character_body_3d.tscn" id="1_a202f"]
+[ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://zombie.tscn" id="2_noarx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
+
+[sub_resource type="Sky" id="Sky_a202f"]
+sky_material = SubResource("ProceduralSkyMaterial_noarx")
+
+[sub_resource type="Environment" id="Environment_noarx"]
+background_mode = 2
+sky = SubResource("Sky_a202f")
+ambient_light_source = 3
+ambient_light_color = Color(0.27337447, 0.490281, 1, 1)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_noarx"]
+vertices = PackedVector3Array(-49.5, 0.6, -49.5, -49.5, 0.6, 49.5, 49.5, 0.6, 49.5, 49.5, 0.6, -49.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4xowi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a202f"]
+albedo_color = Color(0.30688858, 1, 0.1319544, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a202f"]
+size = Vector3(100, 0.3, 100)
+
+[node name="main" type="Node3D" unique_id=238427842]
+script = ExtResource("1_a0tk4")
+
+[node name="Player" parent="." unique_id=1706335129 instance=ExtResource("1_a202f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6907787, 1.3604522, 6.0140963)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=124740623]
+environment = SubResource("Environment_noarx")
+
+[node name="Node" type="Node" parent="WorldEnvironment" unique_id=189418728]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1057153746]
+transform = Transform3D(1, 0, 0, 0, 0.014677674, 0.99989235, 0, -0.99989235, 0.014677674, 0, 10.60083, 0)
+
+[node name="Zombie" parent="." unique_id=936848363 instance=ExtResource("2_noarx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3046808, 26.177734)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=990591457]
+navigation_mesh = SubResource("NavigationMesh_noarx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1663805039]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/StaticBody3D" unique_id=1514592082]
+transform = Transform3D(100, 0, 0, 0, 0.3, 0, 0, 0, 100, 0, 0, 0)
+mesh = SubResource("BoxMesh_4xowi")
+surface_material_override/0 = SubResource("StandardMaterial3D_a202f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/StaticBody3D" unique_id=1303687303]
+shape = SubResource("BoxShape3D_a202f")
+
+[node name="Timer" type="Timer" parent="." unique_id=1889506635]
+wait_time = 3.0
+autostart = true

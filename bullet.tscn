@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c327nwmypbluk"]
+
+[ext_resource type="Script" uid="uid://dmxwpuiawfbt2" path="res://bullet.gd" id="1_v7oki"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rtl8c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7oki"]
+albedo_color = Color(0.7657197, 0.7657191, 7.70092e-07, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v7oki"]
+size = Vector3(0.33569336, 0.29449463, 0.7955475)
+
+[node name="Bullet" type="CharacterBody3D" unique_id=121150359]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_v7oki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1221652599]
+transform = Transform3D(-3.2355743e-08, 0, 0.28032368, 0, 0.24678054, 0, -0.7402131, 0, -1.2253337e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_rtl8c")
+surface_material_override/0 = SubResource("StandardMaterial3D_v7oki")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1219394095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.016235352, -0.00064086914, 0.00016021729)
+shape = SubResource("BoxShape3D_v7oki")
