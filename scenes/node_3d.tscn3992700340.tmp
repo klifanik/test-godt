@@ -79,10 +79,17 @@ autostart = true
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=248208044]
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=166066999]
+<<<<<<< HEAD:scenes/node_3d.tscn3992700340.tmp
 offset_left = 742.0
 offset_top = 35.0
 offset_right = 1118.0
 offset_bottom = 97.0
+=======
+offset_left = 761.0
+offset_top = 564.0
+offset_right = 1137.0
+offset_bottom = 626.0
+>>>>>>> c3fabb26d7f77f07676fe0b459019e6946f9a149:node_3d.tscn
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/background = SubResource("StyleBoxFlat_a0tk4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_r3fl7")
