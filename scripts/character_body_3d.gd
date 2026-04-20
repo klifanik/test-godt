@@ -5,10 +5,10 @@ extends CharacterBody3D
 @onready var pos: Node3D = $head/pistol/pos
 @onready var head: Node3D = $head
 
-@onready var health_bar = $"../CanvasLayer/ProgressBar"
+# Путь к прогрессбару
+@onready var health_bar = $"../CanvasLayer/HealthBar"
 
-const BUL = preload("res://bullet.tscn")
-
+const BUL = preload("res://scenes/bullet.tscn")
 const MOUSE_SENSITIVITY = 0.002
 var camera_pitch: float = 0.0
 
@@ -21,29 +21,22 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	health_bar.max_value = 100
 	health_bar.value = health
+	
+	# Обновляем текст при старте
+	update_health_ui()
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("attack"):
-		var bullet_scene = preload("res://bullet.tscn")
+	if Input.is_action_just_pressed("attack") and not $"../CanvasLayer/DeathScreen".visible:
+		var bullet_scene = preload("res://scenes/bullet.tscn")
 		var bullet = bullet_scene.instantiate()
-		
-		# Добавляем на уровень, чтобы пуля не двигалась вместе с игроком
 		get_tree().root.add_child(bullet)
-		
-		# Точка выхода пули
-		var muzzle = $head/pistol/pos 
+		var muzzle = pos
 		bullet.global_position = muzzle.global_position
-		
-		# Определяем направление. 
-		# В Godot вперед - это -muzzle.global_transform.basis.z.
-		# Если летит в бок, попробуй сменить .z на .x или .y
 		var direction = muzzle.global_transform.basis.x
-		
-		# Задаем скорость и поворот
 		bullet.velocity = direction * 30.0 
 		bullet.look_at(bullet.global_position + direction)
 		
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and not $"../CanvasLayer/DeathScreen".visible:
 		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 		camera_pitch -= event.relative.y * MOUSE_SENSITIVITY
 		camera_pitch = clamp(camera_pitch, deg_to_rad(-89), deg_to_rad(89))
@@ -51,16 +44,26 @@ func _input(event: InputEvent) -> void:
 		
 func take_damage(amount: int):
 	health -= amount
-	print("Твое здоровье: ", health)
 	health_bar.value = health
-	# Здесь можно добавить эффект тряски камеры или красный экран
+	
+	# Обновляем текст при получении урона
+	update_health_ui()
+	
 	if health <= 0:
 		die()
+
+# Вынес обновление текста в отдельную функцию, чтобы не дублировать код
+func update_health_ui():
+	var localized_text = tr("KEY_HEALTHBAR")
+	var final_string = localized_text % [health, health_bar.max_value]
+	var label = $"../CanvasLayer/HealthBar/Label"
+	label.text = final_string
 		
 func die():
 	if is_inside_tree():
-		print("Игрок погиб!")
-		get_tree().reload_current_scene()
+		$"../CanvasLayer/DeathScreen".visible = true
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		Engine.time_scale = 0
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():

@@ -33,6 +33,15 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3fl7"]
 bg_color = Color(5.5711344e-06, 0.4394379, 0.061797544, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jka67"]
+bg_color = Color(0, 0.26666668, 0.8352941, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5arm"]
+bg_color = Color(0, 0.14901961, 0.5137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wc5p8"]
+bg_color = Color(0.20784314, 0.4627451, 1, 1)
+
 [node name="main" type="Node3D" unique_id=238427842]
 script = ExtResource("1_a0tk4")
 
@@ -70,10 +79,90 @@ autostart = true
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=248208044]
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=166066999]
-offset_left = 761.0
-offset_top = 564.0
-offset_right = 1137.0
-offset_bottom = 626.0
+offset_left = 742.0
+offset_top = 35.0
+offset_right = 1118.0
+offset_bottom = 97.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/background = SubResource("StyleBoxFlat_a0tk4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_r3fl7")
+show_percentage = false
+
+[node name="Label" type="Label" parent="CanvasLayer/ProgressBar" unique_id=1145794514]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "HP: 100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeathScreen" type="Control" parent="CanvasLayer" unique_id=1358503140]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/DeathScreen" unique_id=1299024001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6156863)
+
+[node name="Button" type="Button" parent="CanvasLayer/DeathScreen" unique_id=353756325]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -186.0
+offset_top = 76.0
+offset_right = 186.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_jka67")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i5arm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wc5p8")
+text = "KEY_RESTART_GAME"
+
+[node name="Label" type="Label" parent="CanvasLayer/DeathScreen" unique_id=847218558]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -217.0
+offset_top = -174.0
+offset_right = 217.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "KEY_YOUDIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=253834430]
+offset_left = 37.0
+offset_top = 35.0
+offset_right = 413.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 20
+text = "Kills: 0"
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/DeathScreen/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/DeathScreen/Button" to="Zombie" method="_on_button_pressed"]

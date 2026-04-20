@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cdr7ehobppgxk"]
+
+[ext_resource type="Script" uid="uid://c0qsltur88rgn" path="res://scripts/character_body_3d.gd" id="1_iwpo4"]
+[ext_resource type="ArrayMesh" uid="uid://dvxq45dwku5tc" path="res://Voxel Weapon Pack/model_3.obj" id="2_fb3t6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bu0v1"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iwpo4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fb3t6"]
+albedo_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=1706335129 groups=["player"]]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_iwpo4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1277268871]
+shape = SubResource("CapsuleShape3D_bu0v1")
+
+[node name="Skin" type="MeshInstance3D" parent="." unique_id=1293008810]
+mesh = SubResource("CapsuleMesh_iwpo4")
+
+[node name="head" type="Node3D" parent="." unique_id=1612845085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6053696, 0)
+
+[node name="Camera3D" type="Camera3D" parent="head" unique_id=1604359230]
+
+[node name="pistol" type="MeshInstance3D" parent="head" unique_id=1875574097]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.3195214, -0.8076137, -0.6204928)
+mesh = ExtResource("2_fb3t6")
+surface_material_override/0 = SubResource("StandardMaterial3D_fb3t6")
+
+[node name="pos" type="Node3D" parent="head/pistol" unique_id=1085704776]
+transform = Transform3D(-8.74228e-08, 0, 0.14098883, 0, 0.13532388, 0, -2, 0, -6.1628174e-09, -2.068911, 1.1000004, -1.1364343)
