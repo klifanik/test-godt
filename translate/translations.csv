@@ -1,5 +1,5 @@
 keys,en,ru
 KEY_RESTART_GAME,Restart,Играть снова
 KEY_YOUDIED,You died,Вы погибли
-KEY_HEALTHBAR,HP: %d / %d,Здоровье: %d / %d
+KEY_HEALTHBAR,Health: %d / %d,Здоровье: %d / %d
 KEY_KILLSLABEL,"Kills: %d","Убийств: %d"
