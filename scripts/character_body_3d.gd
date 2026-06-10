@@ -5,72 +5,101 @@ extends CharacterBody3D
 @onready var pos: Node3D = $head/pistol/pos
 @onready var head: Node3D = $head
 
-# Путь к прогрессбару
 @onready var health_bar = $"../CanvasLayer/HealthBar"
+@onready var joystick: Control = $"../CanvasLayer/Joystick"
 
 const BUL = preload("res://scenes/bullet.tscn")
 const MOUSE_SENSITIVITY = 0.002
-var camera_pitch: float = 0.0
 
+# ── Чувствительность свайпа камеры (правая зона) ──────────────────────
+const TOUCH_SENSITIVITY = 0.004   # подбери под себя (0.002 – 0.006)
+
+var camera_pitch: float = 0.0
 var health = 100
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
-var joystick_velocity: Vector2 = Vector2.ZERO
+# ── Состояние свайпа камеры ────────────────────────────────────────────
+var cam_touch_index: int = -1
+var cam_last_pos: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
 	health_bar.max_value = 100
 	health_bar.value = health
-	
-	# Обновляем текст при старте
 	update_health_ui()
 
 func _input(event: InputEvent) -> void:
+	# ── Блокировка мыши (десктоп) ──────────────────────────────────────
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			# Блокируем мышку только если она СЕЙЧАС видна (не заблокирована)
 			if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
+
 	if $"../CanvasLayer/DeathScreen".visible:
 		return
-	
+
+	# ── Стрельба ───────────────────────────────────────────────────────
 	if Input.is_action_just_pressed("attack"):
-		var bullet_scene = preload("res://scenes/bullet.tscn")
-		var bullet = bullet_scene.instantiate()
-		get_tree().root.add_child(bullet)
-		var muzzle = pos
-		bullet.global_position = muzzle.global_position
-		var direction = muzzle.global_transform.basis.x
-		bullet.velocity = direction * 30.0 
-		bullet.look_at(bullet.global_position + direction)
-		
+		_shoot()
+
+	# ── Поворот мышью (десктоп) ───────────────────────────────────────
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 		camera_pitch -= event.relative.y * MOUSE_SENSITIVITY
 		camera_pitch = clamp(camera_pitch, deg_to_rad(-89), deg_to_rad(89))
 		head.rotation.x = camera_pitch
-		
+
+	# ── Поворот свайпом (мобайл) — правая половина экрана ─────────────
+	var screen_w = get_viewport().get_visible_rect().size.x
+
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			# Берём палец только если он в ПРАВОЙ половине
+			if event.position.x >= screen_w / 2.0 and cam_touch_index == -1:
+				cam_touch_index = event.index
+				cam_last_pos    = event.position
+		else:
+			if event.index == cam_touch_index:
+				cam_touch_index = -1
+
+	elif event is InputEventScreenDrag:
+		if event.index == cam_touch_index:
+			var delta = event.position - cam_last_pos
+			cam_last_pos = event.position
+
+			# Горизонталь — поворот всего тела (как мышь по X)
+			rotate_y(-delta.x * TOUCH_SENSITIVITY)
+
+			# Вертикаль — наклон головы (camera pitch)
+			camera_pitch -= delta.y * TOUCH_SENSITIVITY
+			camera_pitch = clamp(camera_pitch, deg_to_rad(-89), deg_to_rad(89))
+			head.rotation.x = camera_pitch
+
+func _shoot() -> void:
+	var bullet_scene = preload("res://scenes/bullet.tscn")
+	var bullet = bullet_scene.instantiate()
+	get_tree().root.add_child(bullet)
+	var muzzle = pos
+	bullet.global_position = muzzle.global_position
+	var direction = muzzle.global_transform.basis.x
+	bullet.velocity = direction * 30.0
+	bullet.look_at(bullet.global_position + direction)
+
 func take_damage(amount: int):
 	health -= amount
 	health_bar.value = health
-	
-	# Обновляем текст при получении урона
 	update_health_ui()
-	
 	if health <= 0:
 		die()
 
-# Вынес обновление текста в отдельную функцию, чтобы не дублировать код
 func update_health_ui():
 	var localized_text = tr("KEY_HEALTHBAR")
 	var final_string = localized_text % [health, health_bar.max_value]
 	var label = $"../CanvasLayer/HealthBar/Label"
 	label.text = final_string
-		
+
 func die():
 	if is_inside_tree():
 		$"../CanvasLayer/DeathScreen".visible = true
@@ -84,8 +113,16 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	# ── Движение ──────────────────────────────────────────────────────
+	var input_dir := Vector2.ZERO
+	if joystick and joystick.has_method("get_velocity"):
+		input_dir = joystick.get_velocity()
+
+	if input_dir == Vector2.ZERO:
+		input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED

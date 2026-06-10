@@ -32,4 +32,4 @@ mesh = ExtResource("2_fb3t6")
 surface_material_override/0 = SubResource("StandardMaterial3D_fb3t6")
 
 [node name="pos" type="Node3D" parent="head/pistol" unique_id=1085704776]
-transform = Transform3D(-8.74228e-08, 0, 0.14098883, 0, 0.13532388, 0, -2, 0, -6.1628174e-09, -2.068911, 1.1000004, -1.1364343)
+transform = Transform3D(-8.74228e-08, 0, 0.14098883, 0, 0.13532388, 0, -2, 0, -6.1628174e-09, -2.616463, 1.599572, -1.1364343)

@@ -3,9 +3,8 @@
 [ext_resource type="Script" uid="uid://bnq4gh1wrv0jt" path="res://scripts/node_3d.gd" id="1_a0tk4"]
 [ext_resource type="PackedScene" uid="uid://cdr7ehobppgxk" path="res://scenes/character_body_3d.tscn" id="1_a202f"]
 [ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://scenes/zombie.tscn" id="2_noarx"]
-[ext_resource type="Script" uid="uid://b1sgyvnfx1qc" path="res://scenes/joystick.gd" id="4_xvgsr"]
-[ext_resource type="Script" uid="uid://xd63l6y24b8e" path="res://scenes/base.gd" id="5_oqwcg"]
-[ext_resource type="Script" uid="uid://bhx3ugvyvo4sm" path="res://scenes/handle.gd" id="6_a6664"]
+[ext_resource type="PackedScene" uid="uid://bs8p12pbvieuy" path="res://scenes/Joystick.tscn" id="4_xvgsr"]
+[ext_resource type="Script" uid="uid://wkukd67p3l4w" path="res://scripts/joystick.gd" id="5_oqwcg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 
@@ -44,8 +43,6 @@ bg_color = Color(0, 0.14901961, 0.5137255, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wc5p8"]
 bg_color = Color(0.20784314, 0.4627451, 1, 1)
-
-[sub_resource type="Theme" id="Theme_oqwcg"]
 
 [node name="main" type="Node3D" unique_id=238427842]
 script = ExtResource("1_a0tk4")
@@ -169,45 +166,22 @@ text = "KEY_YOUDIED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Joystick" type="Control" parent="CanvasLayer" unique_id=1089598240]
-layout_mode = 3
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_top = 340.0
-offset_right = 546.0
+[node name="aim" type="ColorRect" parent="CanvasLayer" unique_id=794788384]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.5
+offset_top = -1.5
+offset_right = 1.5
+offset_bottom = 1.5
+grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-theme = SubResource("Theme_oqwcg")
-script = ExtResource("4_xvgsr")
+color = Color(0, 0, 0, 1)
 
-[node name="Base" type="Control" parent="CanvasLayer/Joystick" unique_id=838802549]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -214.0
-offset_top = -104.0
-offset_right = -14.0
-offset_bottom = 96.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Joystick" parent="CanvasLayer" unique_id=1228200460 instance=ExtResource("4_xvgsr")]
 script = ExtResource("5_oqwcg")
-
-[node name="Handle" type="Control" parent="CanvasLayer/Joystick/Base" unique_id=319899366]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -40.0
-offset_right = 40.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("6_a6664")
 
 [connection signal="pressed" from="CanvasLayer/DeathScreen/Button" to="." method="_on_button_pressed"]
