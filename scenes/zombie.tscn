@@ -11,6 +11,8 @@ albedo_color = Color(1.0227784e-06, 0.2727336, 0.02639784, 1)
 material = SubResource("StandardMaterial3D_uiaus")
 
 [node name="Zombie" type="CharacterBody3D" unique_id=936848363 groups=["zombie"]]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_uiaus")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1384414175]

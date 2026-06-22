@@ -16,7 +16,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	find_player()
 
-func find_player():
+func find_player() -> void:
 	var nodes = get_tree().get_nodes_in_group("player")
 	for node in nodes:
 		# Проверяем, что это именно игрок, а не уровень или меш зомби
@@ -66,11 +66,11 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 	
 # Функция, которую вызовет пуля при попадании
-func hit():
+func hit() -> void:
 	Global.AddKill()
 	queue_free() # Удаляет зомби из сцены
 	
-func attack_player():
+func attack_player() -> void:
 	# Проверка: если зомби уже удаляется или не в дереве, ничего не делаем
 	if not is_inside_tree() or not player:
 		return

@@ -1,6 +1,6 @@
 extends Control
 
-func _draw():
+func _draw() -> void:
 	# Вычисляем центр: берем текущий размер узла и делим на 2
 	var center = size / 2
 	

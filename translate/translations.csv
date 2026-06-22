@@ -2,4 +2,8 @@ keys,en,ru
 KEY_RESTART_GAME,Restart,Играть снова
 KEY_YOUDIED,You died,Вы погибли
 KEY_HEALTHBAR,Health: %d / %d,Здоровье: %d / %d
-KEY_KILLSLABEL,"Kills: %d","Убийств: %d"
+KEY_KILLSLABEL,Hits: %d,Попаданий: %d
+KEY_PLAYGAME,Play,Играть
+KEY_OPTIONSBUTTON,Options,Настройки
+KEY_EXITBUTTON,Exit,Выйти
+KEY_LOCALCOINS_LABEL,Collected coins: %d,Собрано монет: %d

@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://cdr7ehobppgxk" path="res://scenes/Player.tscn" id="1_a202f"]
 [ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://scenes/zombie.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://182i1kku43h1" path="res://scenes/canvas_layer.tscn" id="4_xvgsr"]
-[ext_resource type="PackedScene" uid="uid://57pb0y4g0p28" path="res://scenes/coin.tscn" id="5_oqwcg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 
@@ -64,6 +63,3 @@ wait_time = 3.0
 autostart = true
 
 [node name="CanvasLayer" parent="." unique_id=1910997145 instance=ExtResource("4_xvgsr")]
-
-[node name="Area3D" parent="." unique_id=1340739152 instance=ExtResource("5_oqwcg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.668975, 1.1863215, 5.3784785)

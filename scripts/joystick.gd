@@ -12,8 +12,8 @@ var touch_index: int = -1
 var start_pos: Vector2 = Vector2.ZERO
 var current_value: Vector2 = Vector2.ZERO   # нормализованный вектор (-1..1)
 
-const BASE_SIZE  = 160.0
-const KNOB_SIZE  = 70.0
+const BASE_SIZE  = 300.0
+const KNOB_SIZE  = 150.0
 
 func _ready() -> void:
 	# Растягиваем на весь экран — обрабатываем только левую половину
@@ -30,22 +30,10 @@ func _ready() -> void:
 	base_node.add_child(knob_node)
 	_center_knob()
 
-func _make_circle(size: float, fill: Color, border: Color) -> Control:
-	var c = Control.new()
-	c.custom_minimum_size = Vector2(size, size)
-	c.size = Vector2(size, size)
-	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-	var draw = func(_node):
-		c.draw_circle(Vector2(size, size) / 2.0, size / 2.0, fill)
-		c.draw_arc(Vector2(size, size) / 2.0, size / 2.0 - 1.5, 0, TAU, 64, border, 2.5)
-	c.connect("draw", Callable(c, "queue_redraw").unbind(0))
-	# Простой способ рисовать — используем ColorRect + скругление через StyleBox не нужно,
-	# просто переопределим _draw через скрипт-лямбду через SubClass не выйдет в рантайме,
-	# поэтому рисуем через встроенный механизм draw_circle напрямую на Panel
+func _make_circle(circle_size: float, fill: Color, border: Color) -> Control:
 	var panel = Panel.new()
-	panel.custom_minimum_size = Vector2(size, size)
-	panel.size = Vector2(size, size)
+	panel.custom_minimum_size = Vector2(circle_size, circle_size)
+	panel.size = Vector2(circle_size, circle_size)
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	var style = StyleBoxFlat.new()
@@ -55,12 +43,12 @@ func _make_circle(size: float, fill: Color, border: Color) -> Control:
 	style.border_width_right  = 2
 	style.border_width_top    = 2
 	style.border_width_bottom = 2
-	style.corner_radius_top_left     = int(size / 2.0)
-	style.corner_radius_top_right    = int(size / 2.0)
-	style.corner_radius_bottom_left  = int(size / 2.0)
-	style.corner_radius_bottom_right = int(size / 2.0)
+	style.corner_radius_top_left     = int(circle_size / 2.0)
+	style.corner_radius_top_right    = int(circle_size / 2.0)
+	style.corner_radius_bottom_left  = int(circle_size / 2.0)
+	style.corner_radius_bottom_right = int(circle_size / 2.0)
+	
 	panel.add_theme_stylebox_override("panel", style)
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return panel
 
 func _center_knob() -> void:

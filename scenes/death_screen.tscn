@@ -1,0 +1,159 @@
+[gd_scene format=3 uid="uid://bt5f5jja1gunb"]
+
+[ext_resource type="Script" uid="uid://cvi2xpvtod246" path="res://scripts/death_screen.gd" id="1_uyutr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jka67"]
+bg_color = Color(0, 0.26666668, 0.8352941, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5arm"]
+bg_color = Color(0, 0.14901961, 0.5137255, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wc5p8"]
+bg_color = Color(0.20784314, 0.4627451, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uyutr"]
+bg_color = Color(0.6627451, 0, 0.09019608, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwo6e"]
+bg_color = Color(0.4086921, 0, 0.038792975, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mqh5l"]
+bg_color = Color(0.9368003, 0.0005731891, 0.14575565, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[node name="DeathScreen" type="Control" unique_id=2086862792]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uyutr")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=707686582]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6156863)
+
+[node name="restart_btn" type="Button" parent="." unique_id=932379678]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -209.0
+offset_top = 7.0
+offset_right = 214.5
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_jka67")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i5arm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wc5p8")
+text = "KEY_RESTART_GAME"
+
+[node name="Label" type="Label" parent="." unique_id=1641009702]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -379.0
+offset_top = -266.0
+offset_right = 385.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "KEY_YOUDIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exit_btn" type="Button" parent="." unique_id=1044004333]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -206.0
+offset_top = 161.0
+offset_right = 217.5
+offset_bottom = 282.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_uyutr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dwo6e")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mqh5l")
+text = "KEY_EXITBUTTON"
+
+[connection signal="pressed" from="restart_btn" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="exit_btn" to="." method="_on_exit_btn_pressed"]

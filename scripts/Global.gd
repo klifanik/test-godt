@@ -1,16 +1,21 @@
 extends Node
 
-var kills = 0
+var kills: int = 0
+var coins: int = 0
+var RoundCoins: int = 0
 
-func _ready() -> void:
-	var localized_text = tr("KEY_KILLSLABEL")
-	var final_string = localized_text % kills
-	var label = get_tree().root.find_child("KillsText", true, false)
-	label.text = final_string
-
-func AddKill():
+func AddKill() -> void:
 	kills += 1
-	var localized_text = tr("KEY_KILLSLABEL")
-	var final_string = localized_text % kills
-	var label = get_tree().root.find_child("KillsText", true, false)
-	label.text = final_string
+	var label = get_tree().get_first_node_in_group("kills_label")
+	if label and label.has_method("update_text"):
+		label.update_text(Global.kills)
+
+func AddCoin(value) -> void:
+	coins += value
+	
+func AddRoundCoin() -> void:
+	RoundCoins += 1
+	print(RoundCoins)
+	var label = get_tree().get_first_node_in_group("coins_label")
+	if label and label.has_method("update_text"):
+		label.update_text(Global.RoundCoins)
