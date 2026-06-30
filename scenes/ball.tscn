@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dxn2smdbsx8f7"]
+
+[ext_resource type="Script" uid="uid://c7dmrhcm5ugm" path="res://scripts/ball.gd" id="1_7s4qf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7s4qf"]
+transparency = 1
+albedo_color = Color(0.73060286, 0, 0.097633235, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_n1dj2"]
+material = SubResource("StandardMaterial3D_7s4qf")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7s4qf"]
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=1221781844]
+script = ExtResource("1_7s4qf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2068374919]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("SphereMesh_n1dj2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=755159378]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+shape = SubResource("SphereShape3D_7s4qf")

@@ -6,4 +6,9 @@ KEY_KILLSLABEL,Hits: %d,Попаданий: %d
 KEY_PLAYGAME,Play,Играть
 KEY_OPTIONSBUTTON,Options,Настройки
 KEY_EXITBUTTON,Exit,Выйти
-KEY_LOCALCOINS_LABEL,Collected coins: %d,Собрано монет: %d
+KEY_COINSLABEL,Collected coins: %d,Собрано монет: %d
+KEY_RESPAWNAD,Watch ad to revive,Возродиться за рекламу
+KEY_COINSALL,Coins: %d,Монеты: %d
+KEY_KILLSALL,Record hits: %d,Рекорд попаданий: %d
+KEY_YOULEAVE,Are you sure you want to leave?,Вы уверены что хотите выйти?
+KEY_CONTINUE,Continue,Продолжить

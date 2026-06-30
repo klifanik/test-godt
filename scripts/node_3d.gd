@@ -9,6 +9,11 @@ var coin_scene = preload("res://scenes/coin.tscn")
 var spawn_range = 45.0 
 
 func _ready() -> void:
+	# Захватываем курсор мыши. В Web-билде это ключевой триггер для возврата клавиатуры!
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	print("[Level] Сцена уровня загружена, фокус ввода и мышь захвачены.")
+	
 	# Подключаем сигнал таймера кодом, если не сделали этого в редакторе
 	$Timer.timeout.connect(_on_spawn_timer_timeout)
 
@@ -37,8 +42,3 @@ func spawn_zombie() -> void:
 	var random_x = randf_range(-spawn_range, spawn_range)
 	var random_z = randf_range(-spawn_range, spawn_range)
 	zombie.global_position = Vector3(random_x, 1.0, random_z)
-	
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")

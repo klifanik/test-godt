@@ -15,11 +15,11 @@ const JUMP_VELOCITY     = 4.5
 
 var camera_pitch: float = 0.0
 var health: int = 100
-var LocalCoins: int = 0
 var is_mobile: bool = false
-
 var cam_touch_index: int = -1
 var cam_last_pos: Vector2 = Vector2.ZERO
+
+@onready var cl: CanvasLayer = $"../CanvasLayer"
 
 func _ready() -> void:
 	var os_name = OS.get_name()
@@ -44,7 +44,9 @@ func _ready() -> void:
 	health_bar.max_value = 100
 	health_bar.value = health
 	Global.kills = 0
+	Global.Coins = 0
 	update_health_ui()
+	update_label(0)
 
 func _input(event: InputEvent) -> void:
 
@@ -88,7 +90,6 @@ func _shoot() -> void:
 	get_tree().root.add_child(bullet)
 	bullet.global_position = pos.global_position
 	var direction = pos.global_transform.basis.x
-	bullet.velocity = direction * 30.0
 	bullet.look_at(bullet.global_position + direction)
 
 func take_damage(amount: int) -> void:
@@ -98,8 +99,14 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		die()
 		
-func AddLocalCoin() -> void:
-	Global.AddRoundCoin()
+func AddCoin() -> void:
+	Global.AddCoin()
+	get_tree().get_first_node_in_group("lable").play_effect(50)
+	update_label(Global.Coins)
+	
+func update_label(c: int) -> void:
+	var localized_text = tr("KEY_COINSLABEL")
+	cl.get_node("CoinsText").text = localized_text % c
 
 func update_health_ui() -> void:
 	var label = $"../CanvasLayer/HealthBar/Label"

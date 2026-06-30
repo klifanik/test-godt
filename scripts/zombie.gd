@@ -7,14 +7,18 @@ extends CharacterBody3D
 @export var attack_range = 1.5
 @export var attack_cooldown = 1.0 # Задержка между ударами
 
-var can_attack = true
+@onready var cl: CanvasLayer = $"../CanvasLayer"
 
+var can_attack: bool = true
 var player = null
+
+var ball_scene = preload("res://scenes/ball.tscn")
 
 func _ready() -> void:
 	# Даем время всем узлам загрузиться
 	await get_tree().process_frame
 	find_player()
+	update_label(Global.kills)
 
 func find_player() -> void:
 	var nodes = get_tree().get_nodes_in_group("player")
@@ -68,7 +72,20 @@ func _physics_process(delta: float) -> void:
 # Функция, которую вызовет пуля при попадании
 func hit() -> void:
 	Global.AddKill()
+	update_label(Global.kills)
+	get_tree().get_first_node_in_group("lable").play_effect(0)
+	for i in range(10): # Создаем 10 шариков
+		var ball = ball_scene.instantiate()
+		get_tree().root.add_child(ball) # Добавляем в корень сцены
+		ball.global_position = global_position
 	queue_free() # Удаляет зомби из сцены
+	
+
+func update_label(c: int) -> void:
+	var localized_text = tr("KEY_KILLSLABEL")
+	if cl:
+		cl.get_node("KillsText").text = localized_text % c
+	
 	
 func attack_player() -> void:
 	# Проверка: если зомби уже удаляется или не в дереве, ничего не делаем

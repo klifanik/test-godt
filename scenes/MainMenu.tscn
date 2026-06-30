@@ -46,6 +46,7 @@ corner_detail = 16
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brbbq"]
 
 [node name="Control" type="Control" unique_id=1666725341]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,13 +57,17 @@ script = ExtResource("1_yqorp")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=155076806]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.0055555557
-anchor_bottom = 0.10277778
-offset_left = 292.0
-offset_top = 303.0
-offset_right = 978.0
-offset_bottom = 530.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -343.0
+offset_top = -90.0
+offset_right = 343.0
+offset_bottom = 207.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 30
 metadata/_edit_use_anchors_ = true
 
@@ -110,11 +115,11 @@ text = "KEY_EXITBUTTON"
 
 [node name="Label" type="Label" parent="." unique_id=1101925195]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = -1
+anchor_left = 0.44882813
+anchor_top = 0.45
+anchor_right = 0.5511719
+anchor_bottom = 0.46944445
 offset_left = -328.0
 offset_top = -221.0
 offset_right = 328.0
@@ -127,5 +132,44 @@ theme_override_font_sizes/font_size = 60
 text = "Really cool game vs zombie"
 metadata/_edit_use_anchors_ = true
 
+[node name="Record" type="Label" parent="." unique_id=671215629]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -440.0
+offset_top = -82.0
+offset_right = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Coins" type="Label" parent="." unique_id=1713041638]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -82.0
+offset_right = 453.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="." unique_id=262671979]
+layout_mode = 0
+offset_left = 1012.0
+offset_top = 15.0
+offset_right = 1270.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 40
+text = "reset data"
+
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="Button" to="." method="reset_data_pressed"]

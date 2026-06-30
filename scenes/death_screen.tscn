@@ -41,6 +41,45 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ns25"]
+bg_color = Color(0.62352943, 0.5176471, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwety"]
+bg_color = Color(0.44645685, 0.3682062, 2.8878452e-07, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfw3d"]
+bg_color = Color(0.8074567, 0.67287296, 1.1551381e-06, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uyutr"]
 bg_color = Color(0.6627451, 0, 0.09019608, 1)
 border_width_left = 5
@@ -89,6 +128,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uyutr")
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=707686582]
 layout_mode = 1
@@ -98,25 +138,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6156863)
-
-[node name="restart_btn" type="Button" parent="." unique_id=932379678]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -209.0
-offset_top = 7.0
-offset_right = 214.5
-offset_bottom = 128.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxFlat_jka67")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i5arm")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wc5p8")
-text = "KEY_RESTART_GAME"
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="." unique_id=1641009702]
 layout_mode = 1
@@ -126,34 +148,60 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -379.0
-offset_top = -266.0
+offset_top = -309.0
 offset_right = 385.0
-offset_bottom = -16.0
+offset_bottom = -59.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 60
 text = "KEY_YOUDIED"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="exit_btn" type="Button" parent="." unique_id=1044004333]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=425924963]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -206.0
-offset_top = 161.0
-offset_right = 217.5
-offset_bottom = 282.0
+offset_left = -265.0
+offset_top = -40.0
+offset_right = 265.0
+offset_bottom = 263.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 15
+metadata/_edit_use_anchors_ = true
+
+[node name="restart_btn" type="Button" parent="VBoxContainer" unique_id=932379678]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_jka67")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i5arm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wc5p8")
+text = "KEY_RESTART_GAME"
+
+[node name="ad_btn" type="Button" parent="VBoxContainer" unique_id=1613158414]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ns25")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gwety")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wfw3d")
+text = "KEY_RESPAWNAD"
+
+[node name="exit_btn" type="Button" parent="VBoxContainer" unique_id=1044004333]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_uyutr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_dwo6e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mqh5l")
 text = "KEY_EXITBUTTON"
 
-[connection signal="pressed" from="restart_btn" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="exit_btn" to="." method="_on_exit_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/restart_btn" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ad_btn" to="." method="_on_ad_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/exit_btn" to="." method="_on_exit_btn_pressed"]

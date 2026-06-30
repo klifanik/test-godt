@@ -17,7 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*uid://bgwnn5co0r4y7"
+SaveManager="*uid://cu150gk24g7mb"
+Global="*uid://cv3apgsqu4y0h"
+WebBus="*uid://cl67jomjoft1a"
 
 [display]
 
@@ -26,12 +28,15 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/webbus/plugin.cfg")
+
 [global_group]
 
 player=""
 zombie=""
-coins_label=""
-kills_label=""
+lable=""
 
 [input]
 
@@ -76,6 +81,7 @@ attack={
 [internationalization]
 
 locale/translations=PackedStringArray("res://translate/translations.ru.translation", "res://translate/translations.en.translation")
+locale/test="en"
 
 [layer_names]
 

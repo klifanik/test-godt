@@ -2,7 +2,7 @@ extends Control
 
 # ── Настройки — меняй здесь ───────────────────────────────────────────
 @export var button_size:  float = 100.0
-@export var margin_right: float = 80.0
+@export var margin_right: float = 150.0
 @export var margin_bottom: float = 80.0
 
 # Сигнал — подключается в character_body_3d.gd
