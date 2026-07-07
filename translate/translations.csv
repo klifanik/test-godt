@@ -5,10 +5,14 @@ KEY_HEALTHBAR,Health: %d / %d,Здоровье: %d / %d
 KEY_KILLSLABEL,Hits: %d,Попаданий: %d
 KEY_PLAYGAME,Play,Играть
 KEY_OPTIONSBUTTON,Options,Настройки
-KEY_EXITBUTTON,Exit,Выйти
+KEY_EXITBUTTON,Quit,Выйти
 KEY_COINSLABEL,Collected coins: %d,Собрано монет: %d
 KEY_RESPAWNAD,Watch ad to revive,Возродиться за рекламу
 KEY_COINSALL,Coins: %d,Монеты: %d
 KEY_KILLSALL,Record hits: %d,Рекорд попаданий: %d
 KEY_YOULEAVE,Are you sure you want to leave?,Вы уверены что хотите выйти?
 KEY_CONTINUE,Continue,Продолжить
+KEY_AMMOMACHINE,8 Ammo = 5 Coins,8 Патронов = 5 монет
+KEY_AMMOLABEL,Ammo: %d / %d (%d),Патроны: %d / %d (%d)
+KEY_GETAPCAK,Press [E] to buy ammo,Нажмите [E] чтобы купить патроны
+KEY_NEEDMORE,Need more coins,Нужно больше монет

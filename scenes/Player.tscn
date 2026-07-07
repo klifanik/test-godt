@@ -1,17 +1,13 @@
 [gd_scene format=3 uid="uid://cdr7ehobppgxk"]
 
 [ext_resource type="Script" uid="uid://c0qsltur88rgn" path="res://scripts/Player.gd" id="1_iwpo4"]
-[ext_resource type="ArrayMesh" uid="uid://dvxq45dwku5tc" path="res://Voxel Weapon Pack/model_3.obj" id="2_fb3t6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bu0v1"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_iwpo4"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fb3t6"]
-albedo_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
-
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=1706335129 groups=["player"]]
-collision_mask = 3
+collision_layer = 2
 script = ExtResource("1_iwpo4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1277268871]
@@ -24,11 +20,23 @@ mesh = SubResource("CapsuleMesh_iwpo4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6053696, 0)
 
 [node name="Camera3D" type="Camera3D" parent="head" unique_id=1604359230]
+near = 0.2
 
-[node name="pistol" type="MeshInstance3D" parent="head" unique_id=1875574097]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.3195214, -0.8076137, -0.6204928)
-mesh = ExtResource("2_fb3t6")
-surface_material_override/0 = SubResource("StandardMaterial3D_fb3t6")
+[node name="WeaponHandler" type="Marker3D" parent="head/Camera3D" unique_id=1193717560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1.0488108, -1.611)
 
-[node name="pos" type="Node3D" parent="head/pistol" unique_id=1085704776]
-transform = Transform3D(-8.74228e-08, 0, 0.14098883, 0, 0.13532388, 0, -2, 0, -6.1628174e-09, -2.616463, 1.599572, -1.1364343)
+[node name="HUD" type="CanvasLayer" parent="." unique_id=2127690666]
+
+[node name="AmmoLabel" type="Label" parent="HUD" unique_id=343428107]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 35.0
+offset_top = -82.0
+offset_right = 490.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 40
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

@@ -14,6 +14,13 @@ func _ready() -> void:
 	$Coins.text = coinsTR % SaveManager.player_data["coins"]
 	$Record.text = killsTR % SaveManager.player_data["kills"]
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		var coinsTR = tr("KEY_COINSALL")
+		var killsTR = tr("KEY_KILLSALL")
+		$Coins.text = coinsTR % SaveManager.player_data["coins"]
+		$Record.text = killsTR % SaveManager.player_data["kills"]
+
 func _on_button_pressed() -> void:
 	print("[PlayButton] Клик по кнопке Играть. Запрашиваем рекламу...")
 	

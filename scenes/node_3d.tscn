@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://scenes/zombie.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://182i1kku43h1" path="res://scenes/canvas_layer.tscn" id="4_xvgsr"]
 [ext_resource type="PackedScene" uid="uid://57pb0y4g0p28" path="res://scenes/coin.tscn" id="5_oqwcg"]
+[ext_resource type="PackedScene" uid="uid://dnyvcopjli24a" path="res://scenes/ArcadeMachine.scn" id="6_a6664"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 
@@ -50,6 +51,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8005483, 1.3046808, 26.177
 navigation_mesh = SubResource("NavigationMesh_noarx")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D" unique_id=1663805039]
+collision_mask = 3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/StaticBody3D" unique_id=1514592082]
 transform = Transform3D(100, 0, 0, 0, 0.3, 0, 0, 0, 100, 0, 0, 0)
@@ -67,3 +69,6 @@ autostart = true
 
 [node name="Area3D" parent="." unique_id=1340739152 instance=ExtResource("5_oqwcg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.668975, 1.1863215, 5.3784785)
+
+[node name="Node3D" parent="." unique_id=2043980593 instance=ExtResource("6_a6664")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.922491, 0.1846591, 6.497685)

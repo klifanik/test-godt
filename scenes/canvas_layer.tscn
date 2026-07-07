@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://37e30vo1xcd3" path="res://scripts/+1.gd" id="1_kfwc7"]
 [ext_resource type="PackedScene" uid="uid://bt5f5jja1gunb" path="res://scenes/death_screen.tscn" id="1_mg525"]
+[ext_resource type="Script" uid="uid://dywoiewn2tgsc" path="res://scripts/warning.gd" id="2_g6s7q"]
 [ext_resource type="PackedScene" uid="uid://bs8p12pbvieuy" path="res://scenes/Joystick.tscn" id="2_kfwc7"]
 [ext_resource type="Script" uid="uid://wkukd67p3l4w" path="res://scripts/joystick.gd" id="3_4a2ha"]
 [ext_resource type="Script" uid="uid://cneli8a5btqpp" path="res://scripts/shoot_button.gd" id="4_g6s7q"]
@@ -43,6 +44,44 @@ text = "+1"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("1_kfwc7")
+
+[node name="Warning" type="Label" parent="." unique_id=148765534]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -213.0
+offset_top = 150.0
+offset_right = 213.0
+offset_bottom = 214.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.84263474, 3.5616756e-06, 4.813075e-07, 1)
+theme_override_font_sizes/font_size = 30
+text = "KEY_NEEDMORE"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_g6s7q")
+metadata/_edit_use_anchors_ = true
+
+[node name="PreesToBuy" type="Label" parent="." unique_id=1054640339]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -213.0
+offset_top = 184.0
+offset_right = 213.0
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "KEY_GETAPCAK"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HealthBar" type="ProgressBar" parent="." unique_id=789814053]
 anchors_preset = 1
@@ -87,6 +126,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Joystick" parent="." unique_id=1228200460 instance=ExtResource("2_kfwc7")]
 script = ExtResource("3_4a2ha")
+metadata/_edit_use_anchors_ = true
 
 [node name="ShootButton" type="Control" parent="." unique_id=1912719550]
 layout_mode = 3

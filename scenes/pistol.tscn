@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://uf3qwy48a67u"]
+
+[ext_resource type="ArrayMesh" uid="uid://dvxq45dwku5tc" path="res://Voxel Weapon Pack/model_3.obj" id="1_igbvm"]
+[ext_resource type="Script" uid="uid://d1jaijanipgt" path="res://scripts/pistol.gd" id="2_buff3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fb3t6"]
+albedo_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_buff3"]
+
+[node name="pistol" type="MeshInstance3D" unique_id=467580052]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("1_igbvm")
+surface_material_override/0 = SubResource("StandardMaterial3D_fb3t6")
+script = ExtResource("2_buff3")
+
+[node name="Muzzle" type="Marker3D" parent="." unique_id=1464688985]
+
+[node name="RightHand" type="MeshInstance3D" parent="." unique_id=787511672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.082503, 0.42575377, 0.18762076)
+mesh = SubResource("SphereMesh_buff3")
+
+[node name="LeftHand" type="MeshInstance3D" parent="." unique_id=993558136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9109964, 0.09251273, 0.188)
+mesh = SubResource("SphereMesh_buff3")
