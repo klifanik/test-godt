@@ -4,8 +4,12 @@ extends CharacterBody3D
 @onready var camera_3d: Camera3D = $head/Camera3D
 @onready var head: Node3D = $head
 @onready var health_bar = $"../CanvasLayer/HealthBar"
+
 @onready var joystick: Control = $"../CanvasLayer/Joystick"
-@onready var shoot_button: Control = $"../CanvasLayer/ShootButton"
+@onready var MobileControls: Control = $"../CanvasLayer/MobileControls"
+@onready var shoot_button: TouchScreenButton = $"../CanvasLayer/MobileControls/shoot"
+@onready var reload_button: TouchScreenButton = $"../CanvasLayer/MobileControls/reload"
+@onready var use_button: TouchScreenButton = $"../CanvasLayer/MobileControls/use"
 
 @onready var weapon_handler: Node3D = $head/Camera3D/WeaponHandler
 @export var weapon_scene: PackedScene = preload("res://scenes/pistol.tscn")
@@ -37,13 +41,16 @@ func _ready() -> void:
 	if is_mobile:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		# Подключаем сигнал кнопки стрельбы
-		if shoot_button and shoot_button.has_signal("shoot_pressed"):
+		if MobileControls and MobileControls.has_signal("shoot_pressed"):
 			shoot_button.shoot_pressed.connect(_shoot)
-			shoot_button.visible = true
+		if MobileControls and MobileControls.has_signal("reload_pressed"):
+			reload_button.reload_pressed.connect(_reload)
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		if shoot_button:
-			shoot_button.visible = false
+		
+	shoot_button.visible = is_mobile
+	reload_button.visible = is_mobile
+	use_button.visible = is_mobile
 			
 	_init_weapon()
 

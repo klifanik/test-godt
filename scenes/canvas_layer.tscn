@@ -5,8 +5,34 @@
 [ext_resource type="Script" uid="uid://dywoiewn2tgsc" path="res://scripts/warning.gd" id="2_g6s7q"]
 [ext_resource type="PackedScene" uid="uid://bs8p12pbvieuy" path="res://scenes/Joystick.tscn" id="2_kfwc7"]
 [ext_resource type="Script" uid="uid://wkukd67p3l4w" path="res://scripts/joystick.gd" id="3_4a2ha"]
-[ext_resource type="Script" uid="uid://cneli8a5btqpp" path="res://scripts/shoot_button.gd" id="4_g6s7q"]
+[ext_resource type="Script" uid="uid://68chr8mp4in" path="res://scripts/pause_button.gd" id="3_jtalx"]
+[ext_resource type="Script" uid="uid://b0gcmm58mbkfu" path="res://scripts/mobile_controls.gd" id="6_0gp8r"]
+[ext_resource type="Script" uid="uid://cxn8vv43u7a6" path="res://scripts/shoot.gd" id="6_6gso4"]
 [ext_resource type="PackedScene" uid="uid://chkt5x0sudryl" path="res://scenes/pause.tscn" id="6_g6s7q"]
+[ext_resource type="Script" uid="uid://bi27elcety77" path="res://scripts/reload.gd" id="7_0gp8r"]
+[ext_resource type="Script" uid="uid://c6q64ruk1g5dd" path="res://scripts/use.gd" id="8_8hp1u"]
+
+[sub_resource type="Gradient" id="Gradient_g6s7q"]
+offsets = PackedFloat32Array(0.99029124, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jtalx"]
+gradient = SubResource("Gradient_g6s7q")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Gradient" id="Gradient_wskm7"]
+offsets = PackedFloat32Array(0.9773463, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6gso4"]
+gradient = SubResource("Gradient_wskm7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a0tk4"]
 bg_color = Color(0, 0, 0, 1)
@@ -14,8 +40,51 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3fl7"]
 bg_color = Color(5.5711344e-06, 0.4394379, 0.061797544, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g6s7q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jtalx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wskm7"]
+
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1910997145]
 process_mode = 3
+
+[node name="MobileControls" type="Control" parent="." unique_id=1529858054]
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_0gp8r")
+metadata/_edit_use_anchors_ = true
+
+[node name="shoot" type="TouchScreenButton" parent="MobileControls" unique_id=351998301]
+position = Vector2(368, 537)
+texture_normal = SubResource("GradientTexture2D_jtalx")
+texture_pressed = SubResource("GradientTexture2D_jtalx")
+script = ExtResource("6_6gso4")
+
+[node name="reload" type="TouchScreenButton" parent="MobileControls" unique_id=1064213352]
+position = Vector2(478, 397)
+texture_normal = SubResource("GradientTexture2D_6gso4")
+texture_pressed = SubResource("GradientTexture2D_6gso4")
+script = ExtResource("7_0gp8r")
+
+[node name="use" type="TouchScreenButton" parent="MobileControls" unique_id=2007389156]
+position = Vector2(322, 395)
+texture_normal = SubResource("GradientTexture2D_6gso4")
+texture_pressed = SubResource("GradientTexture2D_6gso4")
+script = ExtResource("8_8hp1u")
+
+[node name="Joystick" parent="." unique_id=1228200460 instance=ExtResource("2_kfwc7")]
+offset_left = -111.0
+offset_right = -111.0
+script = ExtResource("3_4a2ha")
+metadata/_edit_use_anchors_ = true
 
 [node name="KillsText" type="Label" parent="." unique_id=312563836]
 offset_left = 35.0
@@ -124,18 +193,51 @@ size_flags_vertical = 8
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Joystick" parent="." unique_id=1228200460 instance=ExtResource("2_kfwc7")]
-script = ExtResource("3_4a2ha")
+[node name="PauseButton" type="Button" parent="." unique_id=39550383]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -340.0
+offset_right = 45.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g6s7q")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jtalx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wskm7")
+script = ExtResource("3_jtalx")
 metadata/_edit_use_anchors_ = true
 
-[node name="ShootButton" type="Control" parent="." unique_id=1912719550]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_g6s7q")
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseButton" unique_id=627571931]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 35
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect1" type="ColorRect" parent="PauseButton/HBoxContainer" unique_id=663388264]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ColorRect2" type="ColorRect" parent="PauseButton/HBoxContainer" unique_id=1882750879]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="DeathScreen" parent="." unique_id=2086862792 instance=ExtResource("1_mg525")]
 
 [node name="pause" parent="." unique_id=726788678 instance=ExtResource("6_g6s7q")]
 process_mode = 3
+
+[connection signal="button_down" from="PauseButton" to="PauseButton" method="_on_button_down"]
+[connection signal="button_up" from="PauseButton" to="PauseButton" method="_on_button_up"]
+[connection signal="mouse_entered" from="PauseButton" to="PauseButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PauseButton" to="PauseButton" method="_on_mouse_exited"]

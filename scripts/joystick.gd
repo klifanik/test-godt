@@ -52,6 +52,7 @@ func _make_circle(circle_size: float, fill: Color, border: Color) -> Control:
 	return panel
 
 func _center_knob() -> void:
+	# Используем локальную позицию внутри base_node, тут всё ок
 	knob_node.position = (Vector2(BASE_SIZE, BASE_SIZE) - Vector2(KNOB_SIZE, KNOB_SIZE)) / 2.0
 
 # ── Публичный API ──────────────────────────────────────────────────────
@@ -64,12 +65,14 @@ func _input(event: InputEvent) -> void:
 
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			# Принимаем только касания в левой половине экрана
+			# Принимаем ТОЛЬКО касания в левой половине экрана и если джойстик свободен
 			if event.position.x < screen_w / 2.0 and touch_index == -1:
 				touch_index = event.index
 				start_pos   = event.position
 				_show_at(event.position)
 		else:
+			# Отпускание ловим ВСЕГДА, без привязки к половине экрана. 
+			# Если индекс совпал — сбрасываем, иначе будет залипание!
 			if event.index == touch_index:
 				_reset()
 
@@ -80,7 +83,8 @@ func _input(event: InputEvent) -> void:
 # ── Приватные методы ───────────────────────────────────────────────────
 func _show_at(pos: Vector2) -> void:
 	base_node.visible = true
-	base_node.position = pos - Vector2(BASE_SIZE, BASE_SIZE) / 2.0
+	# Работаем через global_position, чтобы не зависеть от сдвигов контейнеров
+	base_node.global_position = pos - Vector2(BASE_SIZE, BASE_SIZE) / 2.0
 	_center_knob()
 
 func _update(touch_pos: Vector2) -> void:
@@ -88,6 +92,7 @@ func _update(touch_pos: Vector2) -> void:
 	if offset.length() > radius:
 		offset = offset.normalized() * radius
 
+	# Корректно двигаем стик относительно центра подложки
 	knob_node.position = (Vector2(BASE_SIZE, BASE_SIZE) - Vector2(KNOB_SIZE, KNOB_SIZE)) / 2.0 + offset
 	current_value = offset / radius
 
