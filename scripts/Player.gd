@@ -6,7 +6,6 @@ extends CharacterBody3D
 @onready var health_bar = $"../CanvasLayer/HealthBar"
 
 @onready var joystick: Control = $"../CanvasLayer/Joystick"
-@onready var MobileControls: Control = $"../CanvasLayer/MobileControls"
 @onready var shoot_button: TouchScreenButton = $"../CanvasLayer/MobileControls/shoot"
 @onready var reload_button: TouchScreenButton = $"../CanvasLayer/MobileControls/reload"
 @onready var use_button: TouchScreenButton = $"../CanvasLayer/MobileControls/use"
@@ -40,11 +39,6 @@ func _ready() -> void:
 
 	if is_mobile:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		# Подключаем сигнал кнопки стрельбы
-		if MobileControls and MobileControls.has_signal("shoot_pressed"):
-			shoot_button.shoot_pressed.connect(_shoot)
-		if MobileControls and MobileControls.has_signal("reload_pressed"):
-			reload_button.reload_pressed.connect(_reload)
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		
@@ -66,18 +60,26 @@ func _input(event: InputEvent) -> void:
 	if $"../CanvasLayer/DeathScreen".visible:
 		return
 
-	# ── ПК: стрельба и поворот мышью ──────────────────────────────────
+	# ── ПК: стрельба, перезарядка и поворот мышью ──────────────────────────
 	if not is_mobile:
 		if Input.is_action_just_pressed("attack"):
 			_shoot()
 		if Input.is_action_just_pressed("reload"):
 			_reload()
+			
 		if event is InputEventMouseMotion:
 			rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 			camera_pitch -= event.relative.y * MOUSE_SENSITIVITY
 			camera_pitch = clamp(camera_pitch, deg_to_rad(-89), deg_to_rad(89))
 			head.rotation.x = camera_pitch
-		return
+		return 
+
+	# ── МОБАЙЛ: Ввод ──────────────────────────────────────────────────────
+	# Никаких проверок девайсов! Сюда попадут только чистые экшены от UI-кнопок
+	if Input.is_action_just_pressed("attack"):
+		_shoot()
+	if Input.is_action_just_pressed("reload"):
+		_reload()
 
 	# ── Мобайл: свайп правой зоны = поворот камеры ────────────────────
 	var screen_w = get_viewport().get_visible_rect().size.x

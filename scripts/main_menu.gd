@@ -20,6 +20,9 @@ func _notification(what: int) -> void:
 		var killsTR = tr("KEY_KILLSALL")
 		$Coins.text = coinsTR % SaveManager.player_data["coins"]
 		$Record.text = killsTR % SaveManager.player_data["kills"]
+		
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		Input.action_press("ui_cancel")
 
 func _on_button_pressed() -> void:
 	print("[PlayButton] Клик по кнопке Играть. Запрашиваем рекламу...")

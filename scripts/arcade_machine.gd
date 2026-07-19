@@ -3,6 +3,9 @@ extends Area3D
 var is_player_inside: bool = false
 var player_body: Node3D = null
 
+func _ready() -> void:
+	get_node("/root/main/CanvasLayer/PreesToBuy").visible = false
+
 func _process(delta: float) -> void:
 	if is_player_inside and Input.is_action_just_pressed("interact"):
 		if Global.Coins >= 5:

@@ -18,8 +18,8 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jtalx"]
 gradient = SubResource("Gradient_g6s7q")
-width = 100
-height = 100
+width = 150
+height = 150
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
@@ -30,6 +30,8 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_6gso4"]
 gradient = SubResource("Gradient_wskm7")
+width = 100
+height = 100
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
@@ -63,28 +65,27 @@ script = ExtResource("6_0gp8r")
 metadata/_edit_use_anchors_ = true
 
 [node name="shoot" type="TouchScreenButton" parent="MobileControls" unique_id=351998301]
-position = Vector2(368, 537)
+position = Vector2(310, 520)
 texture_normal = SubResource("GradientTexture2D_jtalx")
 texture_pressed = SubResource("GradientTexture2D_jtalx")
 script = ExtResource("6_6gso4")
 
 [node name="reload" type="TouchScreenButton" parent="MobileControls" unique_id=1064213352]
-position = Vector2(478, 397)
+position = Vector2(499, 409)
 texture_normal = SubResource("GradientTexture2D_6gso4")
 texture_pressed = SubResource("GradientTexture2D_6gso4")
 script = ExtResource("7_0gp8r")
 
 [node name="use" type="TouchScreenButton" parent="MobileControls" unique_id=2007389156]
-position = Vector2(322, 395)
+position = Vector2(316, 366)
 texture_normal = SubResource("GradientTexture2D_6gso4")
 texture_pressed = SubResource("GradientTexture2D_6gso4")
 script = ExtResource("8_8hp1u")
 
 [node name="Joystick" parent="." unique_id=1228200460 instance=ExtResource("2_kfwc7")]
-offset_left = -111.0
-offset_right = -111.0
+offset_top = -2.0
+offset_right = -729.0
 script = ExtResource("3_4a2ha")
-metadata/_edit_use_anchors_ = true
 
 [node name="KillsText" type="Label" parent="." unique_id=312563836]
 offset_left = 35.0
@@ -135,7 +136,6 @@ script = ExtResource("2_g6s7q")
 metadata/_edit_use_anchors_ = true
 
 [node name="PreesToBuy" type="Label" parent="." unique_id=1054640339]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

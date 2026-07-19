@@ -31,17 +31,19 @@ func _ready() -> void:
 
 func _on_shoot_pressed() -> void:
 	_animate_button(shoot_btn, _shoot_base_pos, true)
-	shoot_pressed.emit()
+	Input.action_press("attack")
 
 func _on_shoot_released() -> void:
 	_animate_button(shoot_btn, _shoot_base_pos, false)
+	Input.action_release("attack")
 
 func _on_reload_pressed() -> void:
 	_animate_button(reload_btn, _reload_base_pos, true)
-	reload_pressed.emit()
+	Input.action_press("reload")
 
 func _on_reload_released() -> void:
 	_animate_button(reload_btn, _reload_base_pos, false)
+	Input.action_release("reload")
 
 func _on_interact_pressed() -> void:
 	_animate_button(interact_btn, _interact_base_pos, true)
