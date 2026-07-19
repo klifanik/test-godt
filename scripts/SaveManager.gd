@@ -143,24 +143,31 @@ func setup_yandex_localization() -> void:
 
 # --- РЕКЛАМА ---
 
-func show_regular_ad() -> void:
+func show_regular_ad() -> bool:
 	if OS.has_feature("web") and has_node("/root/WebBus"):
 		get_tree().paused = true
 		WebBus.show_ad()
-		# Ждем закрытия. Если зависнет - таймер подстрахует через 5 сек
+		# Ждем завершения или таймер подстраховки
 		await AnySignals([self.interstitial_ad_finished, get_tree().create_timer(5.0).timeout])
+		get_tree().paused = false
+		return true # В вебе реклама прошла (или сработал таймер)
 	else:
-		interstitial_ad_finished.emit()
+		# На ПК рекламы нет, сразу возвращаем true, чтобы игра шла дальше
+		return true
 
-func show_rewarded_ad() -> void:
+func show_rewarded_ad() -> bool:
 	_is_reward_earned = false
 	if OS.has_feature("web") and has_node("/root/WebBus"):
 		get_tree().paused = true
 		WebBus.show_rewarded_ad()
+		# Ждем окончания видео
 		await AnySignals([self.rewarded_ad_finished, get_tree().create_timer(8.0).timeout])
+		get_tree().paused = false
+		return _is_reward_earned # Вернет true, если Яндекс подтвердил награду
 	else:
+		# На ПК рекламы нет, сразу выдаем награду для тестов
 		_is_reward_earned = true
-		rewarded_ad_finished.emit(true)
+		return true
 
 func _on_any_ad_closed() -> void:
 	_finalize_ad_state()

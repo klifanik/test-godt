@@ -33,14 +33,13 @@ func _on_exit_btn_pressed() -> void:
 
 
 func _on_ad_btn_pressed() -> void:
-	# Вызываем рекламу
-	SaveManager.show_rewarded_ad()
-
-	# Ждем ответ: true (досмотрел) или false (закрыл раньше)
-	var success = await SaveManager.rewarded_ad_finished
-
+	print("[AdButton] Клик по кнопке Возрождение. Запрашиваем рекламу...")
+	
+	# Убран лишний дублирующий вызов! Вызываем ОДИН раз и ждем результат
+	var success = await SaveManager.show_rewarded_ad()
+	
 	if success:
-
+		print("[AdButton] Награда получена, оживляем игрока.")
 		Engine.time_scale = 1.0
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		
@@ -56,4 +55,4 @@ func _on_ad_btn_pressed() -> void:
 			
 		$".".visible = false
 	else:
-		print("Реклама не досмотрена.")
+		print("[AdButton] Реклама не досмотрена. Награда не выдана.")

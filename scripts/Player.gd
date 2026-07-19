@@ -14,6 +14,13 @@ extends CharacterBody3D
 @export var weapon_scene: PackedScene = preload("res://scenes/pistol.tscn")
 var current_weapon: Node3D = null
 
+# Настройки чувствительности для геймпада
+@export var joystick_sensitivity: float = 2.5
+
+# Ограничения обзора по вертикали (чтобы не закидывать голову назад на 360 градусов)
+const MIND_LOOK_ANGLE: float = -85.0
+const MAX_LOOK_ANGLE: float = 85.0
+
 const MOUSE_SENSITIVITY = 0.002
 const TOUCH_SENSITIVITY = 0.004
 const SPEED             = 5.0
@@ -164,7 +171,10 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.get_connected_joypads().size() > 0:
+		_handle_joystick_look(delta)
+
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
 	var input_dir := Vector2.ZERO
@@ -172,7 +182,7 @@ func _physics_process(delta: float) -> void:
 		input_dir = joystick.get_velocity()
 
 	if input_dir == Vector2.ZERO and not is_mobile:
-		input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		input_dir = Input.get_vector("leftward", "rightward", "forward", "backward")
 
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
@@ -184,3 +194,23 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+	
+func _handle_joystick_look(delta: float) -> void:
+	# Получаем вектор отклонения правого стика по осям X и Y
+	# get_vector автоматически учитывает мертвую зону (deadzone) геймпада
+	var input_vector = Input.get_vector("look_left", "look_right", "look_up", "look_down")
+	
+	if input_vector.length() > 0:
+		# 1. Поворот персонажа влево/вправо (вокруг оси Y)
+		# Умножаем на delta, чтобы скорость обзора не зависела от FPS
+		var yaw = -input_vector.x * joystick_sensitivity * delta
+		rotate_y(yaw)
+		
+		# 2. Наклон камеры вверх/вниз (вокруг оси X)
+		var pitch = -input_vector.y * joystick_sensitivity * delta
+		camera_3d.rotate_x(pitch)
+		
+		# Ограничиваем наклон камеры, чтобы игрок не делал сальто глазами
+		var cam_rot = camera_3d.rotation_degrees
+		cam_rot.x = clamp(cam_rot.x, MIND_LOOK_ANGLE, MAX_LOOK_ANGLE)
+		camera_3d.rotation_degrees = cam_rot

@@ -4,7 +4,7 @@ func _ready() -> void:
 	pass
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and not $"../DeathScreen".visible:
+	if event.is_action_pressed("pause") and not $"../DeathScreen".visible:
 		if get_tree().paused:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			set_paused(false)
@@ -35,4 +35,4 @@ func _on_exit_pressed() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		Input.action_press("ui_cancel")
+		Input.action_press("ui_cance")

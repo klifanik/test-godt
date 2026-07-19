@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://182i1kku43h1" path="res://scenes/canvas_layer.tscn" id="4_xvgsr"]
 [ext_resource type="PackedScene" uid="uid://57pb0y4g0p28" path="res://scenes/coin.tscn" id="5_oqwcg"]
 [ext_resource type="PackedScene" uid="uid://dnyvcopjli24a" path="res://scenes/ArcadeMachine.scn" id="6_a6664"]
+[ext_resource type="PackedScene" uid="uid://dhy55dc2tj45p" path="res://scenes/big_home.tscn" id="7_b2yaj"]
+[ext_resource type="PackedScene" uid="uid://c2oqpqpbp3kqp" path="res://scenes/small_home.tscn" id="8_q712h"]
+[ext_resource type="PackedScene" uid="uid://c4n4f7mlr32oe" path="res://scenes/middle_home.tscn" id="9_1enmr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 
@@ -72,3 +75,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.668975, 1.1863215, 5.37847
 
 [node name="Node3D" parent="." unique_id=2043980593 instance=ExtResource("6_a6664")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.922491, 0.1846591, 6.497685)
+
+[node name="CSGBox3D" parent="." unique_id=52213069 instance=ExtResource("7_b2yaj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.080253, 5.1500006, -17.810898)
+
+[node name="CSGBox3D2" parent="." unique_id=76886366 instance=ExtResource("7_b2yaj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.837591, 5.1499996, 17.622133)
+
+[node name="CSGBox3D3" parent="." unique_id=964778391 instance=ExtResource("8_q712h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.731794, 2.6499996, -0.26823235)
+
+[node name="CSGBox3D4" parent="." unique_id=1619033256 instance=ExtResource("8_q712h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.108515, 2.6499987, 1.5973167)
+
+[node name="CSGBox3D5" parent="." unique_id=326380189 instance=ExtResource("9_1enmr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.446451, 3.6499996, -22.675674)
+
+[node name="CSGBox3D6" parent="." unique_id=546807446 instance=ExtResource("9_1enmr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.415939, 3.6499996, 27.493233)

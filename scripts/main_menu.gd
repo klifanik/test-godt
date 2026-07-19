@@ -27,23 +27,17 @@ func _notification(what: int) -> void:
 func _on_button_pressed() -> void:
 	print("[PlayButton] Клик по кнопке Играть. Запрашиваем рекламу...")
 	
-	# 1. Вызываем полноэкранную межстраничную рекламу
-	SaveManager.show_regular_ad()
+	# Теперь функция возвращает true, и условие сработает!
+	var success = await SaveManager.show_regular_ad()
 	
-	# 2. Ждём, пока WebBus честно вернет сигнал о закрытии ad_closed
-	await SaveManager.interstitial_ad_finished
-	
-	print("[PlayButton] Рекламный блок завершен. Возвращаем фокус и загружаем уровень.")
-	
-	# 3. Принудительно заставляем браузер кликнуть по окну игры (для активации клавиатуры)
-	if OS.has_feature("web"):
-		JavaScriptBridge.eval("window.focus();")
-	
-	# 4. Браузер теперь без задержек разрешит захватить курсор мыши
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	# 5. Загружаем сцену игры
-	get_tree().change_scene_to_file(NEXT_LEVEL_PATH)
+	if success:
+		print("[PlayButton] Рекламный блок завершен. Возвращаем фокус и загружаем уровень.")
+		
+		if OS.has_feature("web"):
+			JavaScriptBridge.eval("window.focus();")
+		
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		get_tree().change_scene_to_file(NEXT_LEVEL_PATH)
 
 func _on_button_3_pressed() -> void:
 	get_tree().quit()
