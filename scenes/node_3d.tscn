@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://scenes/zombie.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://182i1kku43h1" path="res://scenes/canvas_layer.tscn" id="4_xvgsr"]
 [ext_resource type="PackedScene" uid="uid://57pb0y4g0p28" path="res://scenes/coin.tscn" id="5_oqwcg"]
+[ext_resource type="Script" uid="uid://cnt1uj4ouxyr" path="res://scripts/minimap_cam.gd" id="5_q712h"]
 [ext_resource type="PackedScene" uid="uid://dnyvcopjli24a" path="res://scenes/ArcadeMachine.scn" id="6_a6664"]
 [ext_resource type="PackedScene" uid="uid://dhy55dc2tj45p" path="res://scenes/big_home.tscn" id="7_b2yaj"]
 [ext_resource type="PackedScene" uid="uid://c2oqpqpbp3kqp" path="res://scenes/small_home.tscn" id="8_q712h"]
@@ -32,6 +33,42 @@ albedo_color = Color(0.4506483, 0.4506483, 0.45064825, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a202f"]
 size = Vector3(100, 0.3, 100)
+
+[sub_resource type="Shader" id="Shader_q712h"]
+code = "shader_type canvas_item;
+
+void fragment() {
+    // Находим центр текстуры (0.5, 0.5)
+    vec2 center = vec2(0.5, 0.5);
+    
+    // Считаем расстояние от текущего пикселя до центра
+    float dist = distance(UV, center);
+    
+    // Получаем исходный цвет пикселя из нашей мини-карты
+    vec4 pixel_color = texture(TEXTURE, UV);
+    
+    // Если пиксель находится дальше, чем радиус круга (0.5), делаем его невидимым
+    if (dist > 0.5) {
+        pixel_color.a = 0.0;
+    }
+    
+    COLOR = pixel_color;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1enmr"]
+shader = SubResource("Shader_q712h")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q712h"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [node name="main" type="Node3D" unique_id=238427842]
 script = ExtResource("1_a0tk4")
@@ -70,11 +107,51 @@ autostart = true
 
 [node name="CanvasLayer" parent="." unique_id=1910997145 instance=ExtResource("4_xvgsr")]
 
+[node name="minimap" type="CanvasLayer" parent="." unique_id=1114236509]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="minimap" unique_id=89063626]
+material = SubResource("ShaderMaterial_1enmr")
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -270.0
+offset_right = 240.0
+offset_bottom = -70.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="minimap/SubViewportContainer" unique_id=1098583501]
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="minimap/SubViewportContainer/SubViewport" unique_id=2020703738 node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 53.548187, 0)
+cull_mask = 3
+projection = 1
+size = 60.0
+script = ExtResource("5_q712h")
+player = NodePath("../../../../Player")
+
+[node name="Panel" type="Panel" parent="minimap" unique_id=524604899]
+offset_left = 40.0
+offset_top = 450.0
+offset_right = 240.0
+offset_bottom = 650.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_q712h")
+
 [node name="Area3D" parent="." unique_id=1340739152 instance=ExtResource("5_oqwcg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.668975, 1.1863215, 5.3784785)
 
-[node name="Node3D" parent="." unique_id=2043980593 instance=ExtResource("6_a6664")]
+[node name="ArcadeMachine1" parent="." unique_id=2043980593 instance=ExtResource("6_a6664")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.922491, 0.1846591, 6.497685)
+
+[node name="ArcadeMachine2" parent="." unique_id=1535637581 instance=ExtResource("6_a6664")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.5094194, 0.18466005, -14.699604)
+
+[node name="ArcadeMachine3" parent="." unique_id=204830706 instance=ExtResource("6_a6664")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.47581, 0.18466052, 22.153442)
 
 [node name="CSGBox3D" parent="." unique_id=52213069 instance=ExtResource("7_b2yaj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.080253, 5.1500006, -17.810898)
