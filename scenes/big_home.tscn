@@ -6,7 +6,7 @@ albedo_color = Color(0.16206557, 0.1620656, 0.16206554, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dk8js"]
 albedo_color = Color(9.62615e-08, 0.57943714, 0.5796241, 1)
 
-[node name="CSGBox3D" type="CSGBox3D" unique_id=52213069]
+[node name="bigHome" type="CSGBox3D" unique_id=52213069]
 use_collision = true
 size = Vector3(3, 10, 3)
 material = SubResource("StandardMaterial3D_1hntu")

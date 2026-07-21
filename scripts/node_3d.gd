@@ -1,12 +1,12 @@
 extends Node3D
 
 # Загружаем сцену зомби
-var zombie_scene = preload("res://scenes/zombie.tscn")
-var coin_scene = preload("res://scenes/coin.tscn")
+var zombie_scene: PackedScene = preload("res://scenes/zombie.tscn")
+var coin_scene: PackedScene = preload("res://scenes/coin.tscn")
 # var coin_scene = preload()
 
 # Границы спавна (исходя из размера пола 100x100)
-var spawn_range = 45.0 
+var spawn_range: float = 45.0
 
 func _ready() -> void:
 	# Захватываем курсор мыши. В Web-билде это ключевой триггер для возврата клавиатуры!

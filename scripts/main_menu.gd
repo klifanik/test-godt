@@ -5,17 +5,20 @@ extends Control
 const NEXT_LEVEL_PATH = "res://scenes/node_3d.tscn"
 
 func _ready() -> void:
-	
-	# Меню работает в обычном режиме
-	process_mode = Node.PROCESS_MODE_INHERIT
+	if SaveManager.player_data["language"] != "":
+		TranslationServer.set_locale(SaveManager.player_data["language"])
 	
 	var coinsTR = tr("KEY_COINSALL")
 	var killsTR = tr("KEY_KILLSALL")
 	$Coins.text = coinsTR % SaveManager.player_data["coins"]
 	$Record.text = killsTR % SaveManager.player_data["kills"]
+	
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		if SaveManager.player_data["language"] != "":
+			TranslationServer.set_locale(SaveManager.player_data["language"])
+		
 		var coinsTR = tr("KEY_COINSALL")
 		var killsTR = tr("KEY_KILLSALL")
 		$Coins.text = coinsTR % SaveManager.player_data["coins"]
@@ -38,6 +41,9 @@ func _on_button_pressed() -> void:
 		
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		get_tree().change_scene_to_file(NEXT_LEVEL_PATH)
+		
+func _on_button_2_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/settings.tscn")
 
 func _on_button_3_pressed() -> void:
 	get_tree().quit()
@@ -45,7 +51,3 @@ func _on_button_3_pressed() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
-
-
-func reset_data_pressed() -> void:
-	SaveManager.reset_all_data_completely()

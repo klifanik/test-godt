@@ -6,6 +6,8 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_iwpo4"]
 
+[sub_resource type="AudioStream" id="AudioStream_p0vlq"]
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=1706335129 groups=["player"]]
 collision_layer = 2
 script = ExtResource("1_iwpo4")
@@ -41,3 +43,6 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=291360776]
+stream = SubResource("AudioStream_p0vlq")

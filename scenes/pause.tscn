@@ -46,6 +46,45 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wen6a"]
+bg_color = Color(0.62352943, 0.5176471, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cml1b"]
+bg_color = Color(0.44645685, 0.3682062, 2.8878452e-07, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xtef"]
+bg_color = Color(0.8074567, 0.67287296, 1.1551381e-06, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m0klm"]
 bg_color = Color(0.6627451, 0, 0.09019608, 1)
 border_width_left = 5
@@ -86,6 +125,7 @@ corner_radius_bottom_left = 20
 corner_detail = 16
 
 [node name="Control" type="Control" unique_id=726788678]
+process_mode = 3
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -135,7 +175,7 @@ anchor_bottom = 0.5
 offset_left = -231.93103
 offset_top = -44.0
 offset_right = 231.93103
-offset_bottom = 192.0
+offset_bottom = 227.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
@@ -149,6 +189,15 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_f1d2v")
 theme_override_styles/hover = SubResource("StyleBoxFlat_r1fnm")
 text = "KEY_CONTINUE"
 
+[node name="settings" type="Button" parent="VBoxContainer" unique_id=253885028]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_wen6a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cml1b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1xtef")
+text = "KEY_OPTIONSBUTTON"
+
 [node name="exit" type="Button" parent="VBoxContainer" unique_id=359670662]
 layout_mode = 2
 size_flags_vertical = 3
@@ -159,4 +208,5 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_jn4bt")
 text = "KEY_EXITBUTTON"
 
 [connection signal="pressed" from="VBoxContainer/continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_exit_pressed"]

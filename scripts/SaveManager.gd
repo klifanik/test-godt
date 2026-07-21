@@ -8,6 +8,10 @@ const SAVE_FILE_PATH = "user://save_game.dat"
 var player_data: Dictionary = {
 	"coins": 0,
 	"kills": 0,
+	"language": "",
+	"music": 1.0,
+	"sounds": 1.0,
+	"hitboxes": false
 }
 
 var _is_reward_earned: bool = false
@@ -199,12 +203,13 @@ func reset_all_data_completely() -> void:
 	print("[SaveManager] ЗАПУСК ПОЛНОГО СБРОСА ДАННЫХ...")
 	
 	# 1. Возвращаем словарь к начальным дефолтным значениям
-	player_data = {
+	var player_data: Dictionary = {
 		"coins": 0,
 		"kills": 0,
-		"high_score": 0,
-		"level": 1,
-		"unlocked_skins": ["default"]
+		"language": "",
+		"music": 1.0,
+		"sounds": 1.0,
+		"hitboxes": false
 	}
 	
 	# 2. Удаляем локальный файл с ПК

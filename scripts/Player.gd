@@ -204,6 +204,9 @@ func _create_minimap_marker() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		
+	if global_position.y <= -10:
+		global_position = Vector3(0.0, 2.0, 0.0)		
 
 	if Input.get_connected_joypads().size() > 0:
 		_handle_joystick_look(delta)

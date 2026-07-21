@@ -17,10 +17,14 @@ func _ready() -> void:
 		is_mobile = false
 		
 	if not is_mobile:
-		view.position.y = 480
-		panel.position.y = 480
-		view.position.x = 1040
-		panel.position.x = 1040
+		view.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE)
+		view.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		view.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+		panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		view.position += Vector2(-20, -20)
+		panel.position += Vector2(-20, -20)
 
 func _physics_process(_delta: float) -> void:
 	if player:

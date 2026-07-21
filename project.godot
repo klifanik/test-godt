@@ -18,11 +18,16 @@ boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://b5c2dwkavi87v"
+
 [autoload]
 
 SaveManager="*uid://cu150gk24g7mb"
 Global="*uid://cv3apgsqu4y0h"
 WebBus="*uid://cl67jomjoft1a"
+SoundManager="*uid://sc04nkxyiit"
 
 [display]
 
@@ -162,6 +167,7 @@ pause={
 [internationalization]
 
 locale/translations=PackedStringArray("res://translate/translations.ru.translation", "res://translate/translations.en.translation")
+locale/test="en"
 
 [layer_names]
 

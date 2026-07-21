@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bnq4gh1wrv0jt" path="res://scripts/node_3d.gd" id="1_a0tk4"]
 [ext_resource type="PackedScene" uid="uid://cdr7ehobppgxk" path="res://scenes/Player.tscn" id="1_a202f"]
-[ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://scenes/zombie.tscn" id="2_noarx"]
 [ext_resource type="PackedScene" uid="uid://182i1kku43h1" path="res://scenes/canvas_layer.tscn" id="4_xvgsr"]
-[ext_resource type="PackedScene" uid="uid://57pb0y4g0p28" path="res://scenes/coin.tscn" id="5_oqwcg"]
 [ext_resource type="Script" uid="uid://cnt1uj4ouxyr" path="res://scripts/minimap_cam.gd" id="5_q712h"]
+[ext_resource type="Script" uid="uid://dno8daam1rkl5" path="res://scripts/map_objects.gd" id="6_1enmr"]
 [ext_resource type="PackedScene" uid="uid://dnyvcopjli24a" path="res://scenes/ArcadeMachine.scn" id="6_a6664"]
 [ext_resource type="PackedScene" uid="uid://dhy55dc2tj45p" path="res://scenes/big_home.tscn" id="7_b2yaj"]
 [ext_resource type="PackedScene" uid="uid://c2oqpqpbp3kqp" path="res://scenes/small_home.tscn" id="8_q712h"]
 [ext_resource type="PackedScene" uid="uid://c4n4f7mlr32oe" path="res://scenes/middle_home.tscn" id="9_1enmr"]
+[ext_resource type="PackedScene" uid="uid://xgt3ykldbcrn" path="res://scenes/zombie.tscn" id="10_q712h"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_noarx"]
 
@@ -70,22 +70,19 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_cptob"]
+
 [node name="main" type="Node3D" unique_id=238427842]
 script = ExtResource("1_a0tk4")
 
 [node name="Player" parent="." unique_id=1706335129 instance=ExtResource("1_a202f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6907787, 1.3604522, 6.0140963)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=124740623]
 environment = SubResource("Environment_noarx")
 
-[node name="Node" type="Node" parent="WorldEnvironment" unique_id=189418728]
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1057153746]
 transform = Transform3D(1, 0, 0, 0, 0.014677674, 0.99989235, 0, -0.99989235, 0.014677674, 0, 10.60083, 0)
-
-[node name="Zombie" parent="." unique_id=936848363 instance=ExtResource("2_noarx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8005483, 1.3046808, 26.177734)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=990591457]
 navigation_mesh = SubResource("NavigationMesh_noarx")
@@ -105,8 +102,6 @@ shape = SubResource("BoxShape3D_a202f")
 wait_time = 3.0
 autostart = true
 
-[node name="CanvasLayer" parent="." unique_id=1910997145 instance=ExtResource("4_xvgsr")]
-
 [node name="minimap" type="CanvasLayer" parent="." unique_id=1114236509]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="minimap" unique_id=89063626]
@@ -119,7 +114,6 @@ offset_top = -270.0
 offset_right = 240.0
 offset_bottom = -70.0
 grow_vertical = 0
-metadata/_edit_use_anchors_ = true
 
 [node name="SubViewport" type="SubViewport" parent="minimap/SubViewportContainer" unique_id=1098583501]
 handle_input_locally = false
@@ -135,38 +129,34 @@ script = ExtResource("5_q712h")
 player = NodePath("../../../../Player")
 
 [node name="Panel" type="Panel" parent="minimap" unique_id=524604899]
+custom_minimum_size = Vector2(200, 200)
 offset_left = 40.0
 offset_top = 450.0
 offset_right = 240.0
 offset_bottom = 650.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_q712h")
 
-[node name="Area3D" parent="." unique_id=1340739152 instance=ExtResource("5_oqwcg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.668975, 1.1863215, 5.3784785)
+[node name="CanvasLayer" parent="." unique_id=1910997145 instance=ExtResource("4_xvgsr")]
 
-[node name="ArcadeMachine1" parent="." unique_id=2043980593 instance=ExtResource("6_a6664")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.922491, 0.1846591, 6.497685)
+[node name="map_objects" type="Node" parent="." unique_id=53644941]
+process_mode = 3
+script = ExtResource("6_1enmr")
+small_home = ExtResource("8_q712h")
+middle_home = ExtResource("9_1enmr")
+big_home = ExtResource("7_b2yaj")
+arcade_machine = ExtResource("6_a6664")
+SPAWNS = 2
+middlers = 5
+biggers = 5
+arcades = 3
 
-[node name="ArcadeMachine2" parent="." unique_id=1535637581 instance=ExtResource("6_a6664")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.5094194, 0.18466005, -14.699604)
+[node name="ShapeCast3D" type="ShapeCast3D" parent="map_objects" unique_id=820869546]
+shape = SubResource("SphereShape3D_cptob")
 
-[node name="ArcadeMachine3" parent="." unique_id=204830706 instance=ExtResource("6_a6664")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.47581, 0.18466052, 22.153442)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=547041038]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 67, 0)
+cull_mask = 1048573
+current = true
 
-[node name="CSGBox3D" parent="." unique_id=52213069 instance=ExtResource("7_b2yaj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.080253, 5.1500006, -17.810898)
-
-[node name="CSGBox3D2" parent="." unique_id=76886366 instance=ExtResource("7_b2yaj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.837591, 5.1499996, 17.622133)
-
-[node name="CSGBox3D3" parent="." unique_id=964778391 instance=ExtResource("8_q712h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.731794, 2.6499996, -0.26823235)
-
-[node name="CSGBox3D4" parent="." unique_id=1619033256 instance=ExtResource("8_q712h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.108515, 2.6499987, 1.5973167)
-
-[node name="CSGBox3D5" parent="." unique_id=326380189 instance=ExtResource("9_1enmr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.446451, 3.6499996, -22.675674)
-
-[node name="CSGBox3D6" parent="." unique_id=546807446 instance=ExtResource("9_1enmr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.415939, 3.6499996, 27.493233)
+[node name="Zombie" parent="." unique_id=936848363 instance=ExtResource("10_q712h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 25)

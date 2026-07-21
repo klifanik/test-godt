@@ -16,3 +16,8 @@ KEY_AMMOMACHINE,8 Ammo = 5 Coins,8 Патронов = 5 монет
 KEY_AMMOLABEL,Ammo: %d / %d (%d),Патроны: %d / %d (%d)
 KEY_GETAPCAK,Press [E] to buy ammo,Нажмите [E] чтобы купить патроны
 KEY_NEEDMORE,Need more coins,Нужно больше монет
+KEY_LANGUAGE,Language: English EN,Язык: Русский RU
+KEY_MUSIC,Music,Музыка
+KEY_SOUNDS,Sounds,Звуки
+KEY_RESET,Reset all your data,Сбросить весь прогресс
+KEY_HITBOXES,Hitboxes,Хитбоксы
