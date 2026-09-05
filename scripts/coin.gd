@@ -3,6 +3,8 @@ extends Area3D
 @export var rotation_speed: float = 2.0 # Скорость вращения монеты
 @export var minimap_color: Color = Color.GREEN
 
+@export var sound_coin: AudioStream
+
 func _ready() -> void:
 	_create_minimap_marker()
 
@@ -14,6 +16,7 @@ func _on_body_entered(body: Node3D) -> void:
 	# Проверяем, что в монету врезался именно игрок
 	if body.is_in_group("player"):
 		
+		SoundManager.play_sound_3d(sound_coin, global_position)
 		# Тест 3: Есть ли у него метод?
 		if body.has_method("AddCoin"):
 			body.AddCoin()

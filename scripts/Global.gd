@@ -8,3 +8,9 @@ func AddKill() -> void:
 	
 func AddCoin() -> void:
 	Coins += 1
+	
+func DelCoin() -> void:
+	Coins -= 1
+	
+func DelKill() -> void:
+	kills -= 1

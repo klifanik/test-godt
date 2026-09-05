@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cnt1uj4ouxyr" path="res://scripts/minimap_cam.gd" id="5_q712h"]
 [ext_resource type="Script" uid="uid://dno8daam1rkl5" path="res://scripts/map_objects.gd" id="6_1enmr"]
 [ext_resource type="PackedScene" uid="uid://dnyvcopjli24a" path="res://scenes/ArcadeMachine.scn" id="6_a6664"]
+[ext_resource type="AudioStream" uid="uid://bm05w1a3ady7o" path="res://music&sound/spawn.wav" id="6_aj7ea"]
 [ext_resource type="PackedScene" uid="uid://dhy55dc2tj45p" path="res://scenes/big_home.tscn" id="7_b2yaj"]
 [ext_resource type="PackedScene" uid="uid://c2oqpqpbp3kqp" path="res://scenes/small_home.tscn" id="8_q712h"]
 [ext_resource type="PackedScene" uid="uid://c4n4f7mlr32oe" path="res://scenes/middle_home.tscn" id="9_1enmr"]
@@ -141,6 +142,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_q712h")
 [node name="map_objects" type="Node" parent="." unique_id=53644941]
 process_mode = 3
 script = ExtResource("6_1enmr")
+spawn_sound = ExtResource("6_aj7ea")
 small_home = ExtResource("8_q712h")
 middle_home = ExtResource("9_1enmr")
 big_home = ExtResource("7_b2yaj")

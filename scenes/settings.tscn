@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://beu60g0iy7qjk" path="res://textures/background.png" id="1_5p8wc"]
 [ext_resource type="Script" uid="uid://b10ypw6ae84cn" path="res://scripts/settings.gd" id="1_r6d6q"]
 [ext_resource type="Shader" uid="uid://ck1srgvnqdukv" path="res://shaders/MainMenu.gdshader" id="3_6wm04"]
+[ext_resource type="AudioStream" uid="uid://clkoi3vy7jush" path="res://music&sound/main.ogg" id="4_f4mfi"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f4mfi"]
 texture = ExtResource("1_5p8wc")
@@ -252,6 +253,8 @@ horizontal_alignment = 1
 [node name="music" type="HSlider" parent="VBoxContainer" unique_id=1350301584]
 layout_mode = 2
 size_flags_vertical = 3
+tooltip_text = "KEY_TOOLTIP_MUSIC"
+tooltip_auto_translate_mode = 1
 theme_override_styles/slider = SubResource("StyleBoxFlat_4ppmf")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_uhhto")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_01roj")
@@ -268,6 +271,8 @@ horizontal_alignment = 1
 [node name="sound" type="HSlider" parent="VBoxContainer" unique_id=1100908665]
 layout_mode = 2
 size_flags_vertical = 3
+tooltip_text = "KEY_TOOLTIP_SOUND"
+tooltip_auto_translate_mode = 1
 theme_override_styles/slider = SubResource("StyleBoxFlat_1g033")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_6wm04")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_wqwn7")
@@ -279,6 +284,8 @@ value = 1.0
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+tooltip_text = "KEY_TOOLTIP_HITBOXES"
+tooltip_auto_translate_mode = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -297,10 +304,37 @@ text = "KEY_HITBOXES"
 alignment = 1
 autowrap_trim_flags = 0
 
+[node name="fullscreen" type="CheckButton" parent="VBoxContainer" unique_id=21509428]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+tooltip_text = "KEY_TOOLTIP_FULLSCREEN"
+tooltip_auto_translate_mode = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_constants/h_separation = 15
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_oe2nd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7kvyq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ql1j0")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_g5y2q")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_6dbjw")
+theme_override_colors/button_checked_color = Color(0, 0.20742741, 0.99999946, 1)
+button_pressed = true
+text = "KEY_FULLSCREEN"
+alignment = 1
+autowrap_trim_flags = 0
+
 [node name="lang" type="Button" parent="VBoxContainer" unique_id=207980256]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+tooltip_text = "KEY_TOOLTIP_LANGUAGE"
+tooltip_auto_translate_mode = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -317,6 +351,8 @@ process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+tooltip_text = "KEY_TOOLTIP_RESET"
+tooltip_auto_translate_mode = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -342,9 +378,16 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_gjs24")
 theme_override_styles/hover = SubResource("StyleBoxFlat_am25x")
 text = "KEY_EXITBUTTON"
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1676076456]
+stream = ExtResource("4_f4mfi")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
 [connection signal="value_changed" from="VBoxContainer/music" to="." method="_on_music_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/sound" to="." method="_on_sound_value_changed"]
 [connection signal="toggled" from="VBoxContainer/hitboxes" to="." method="_on_check_button_toggled"]
+[connection signal="toggled" from="VBoxContainer/fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="VBoxContainer/lang" to="." method="_on_lang_pressed"]
 [connection signal="pressed" from="VBoxContainer/reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="VBoxContainer/exit" to="." method="_on_exit_pressed"]

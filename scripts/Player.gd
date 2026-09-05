@@ -19,6 +19,11 @@ var current_weapon: Node3D = null
 
 @export var minimap_color: Color = Color.YELLOW
 
+@export var step_sound: AudioStream
+@export var hit_sound: AudioStream
+@export var game_sound: AudioStream
+@export var main_sound: AudioStream
+
 # Ограничения обзора по вертикали (чтобы не закидывать голову назад на 360 градусов)
 const MIND_LOOK_ANGLE: float = -85.0
 const MAX_LOOK_ANGLE: float = 85.0
@@ -64,6 +69,8 @@ func _ready() -> void:
 	Global.Coins = 0
 	update_health_ui()
 	update_label(Global.Coins)
+	
+	SoundManager.play_music(game_sound)
 
 func _input(event: InputEvent) -> void:
 
@@ -121,6 +128,7 @@ func _reload() -> void:
 			current_weapon.reload()
 
 func take_damage(amount: int) -> void:
+	SoundManager.play_sound_3d(hit_sound, global_position)
 	health -= amount
 	health_bar.value = health
 	update_health_ui()
@@ -133,8 +141,7 @@ func AddCoin() -> void:
 	update_label(Global.Coins)
 	
 func update_label(c: int) -> void:
-	var localized_text = tr("KEY_COINSLABEL")
-	cl.get_node("CoinsText").text = localized_text % c
+	cl.get_node("CoinsText").text = tr("KEY_COINSLABEL") % c
 
 func update_health_ui() -> void:
 	var label = $"../CanvasLayer/HealthBar/Label"
@@ -142,9 +149,13 @@ func update_health_ui() -> void:
 
 func die() -> void:
 	if is_inside_tree():
+		SoundManager.stop_music()
+		SoundManager.play_music(main_sound)
 		$"../CanvasLayer/DeathScreen".visible = true
+		$"../CanvasLayer/DeathScreen".start()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		Engine.time_scale = 0
+		get_tree().paused = true
+	
 		
 func _on_weapon_ammo_changed(current: int, reserve_ammo: int, max_in_pack: int) -> void:
 	if ammo_label:
@@ -226,6 +237,7 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
+		SoundManager.play_sound_3d_cooldown(step_sound, global_position, 0.55)
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)

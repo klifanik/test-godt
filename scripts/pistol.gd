@@ -5,6 +5,10 @@ signal ammo_changed(current_ammo, reserve_ammo, max_in_pack)
 
 @export var bullet_scene: PackedScene = preload("res://scenes/bullet.tscn")
 
+@export var shoot_sound: AudioStream
+@export var reload_sound: AudioStream
+@export var noammo_sound: AudioStream
+
 # Настройки
 @export var max_ammo: int = 8          # Патронов в одном магазине
 @export var total_ammo: int = 24       # ВСЕГО патронов на старте (включая заряженные)
@@ -23,10 +27,16 @@ func _ready() -> void:
 	_send_ammo_signal()
 
 func shoot() -> void:
-	if is_reloading or not can_shoot or current_ammo <= 0:
+	if is_reloading or not can_shoot:
+		return
+		
+	if current_ammo <= 0:
+		SoundManager.play_sound_3d(noammo_sound, global_position)
 		return
 		
 	apply_recoil()
+	
+	SoundManager.play_sound_3d(shoot_sound, global_position)
 
 	current_ammo -= 1
 	total_ammo -= 1 # Уменьшаем общий пул, так как патрон физически улетел
@@ -44,12 +54,17 @@ func reload() -> void:
 	var reserve_ammo = total_ammo - current_ammo
 	
 	# Если перезаряжаемся, пушка полная или в карманах пусто — отмена
-	if is_reloading or current_ammo == max_ammo or reserve_ammo <= 0:
+	if is_reloading or current_ammo == max_ammo:
+		return
+		
+	if reserve_ammo <= 0:
+		SoundManager.play_sound_3d(noammo_sound, global_position)
 		return
 		
 	is_reloading = true
 	can_shoot = false
 	
+	SoundManager.play_sound_3d(reload_sound, global_position)
 	apply_reload_animation()
 	
 	await get_tree().create_timer(reload_time).timeout

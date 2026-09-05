@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://xgt3ykldbcrn"]
 
 [ext_resource type="Script" uid="uid://dicvgp5syihi7" path="res://scripts/zombie.gd" id="1_uiaus"]
+[ext_resource type="AudioStream" uid="uid://bgykiepxuinmu" path="res://music&sound/kill.wav" id="2_httt1"]
+[ext_resource type="Texture2D" uid="uid://bifpkw2uberjx" path="res://textures/face.png" id="3_xepks"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_050lg"]
 
@@ -14,6 +16,7 @@ material = SubResource("StandardMaterial3D_uiaus")
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_uiaus")
+kill_sound = ExtResource("2_httt1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1384414175]
 shape = SubResource("CapsuleShape3D_050lg")
@@ -22,3 +25,8 @@ shape = SubResource("CapsuleShape3D_050lg")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1549115649]
 mesh = SubResource("CapsuleMesh_uiaus")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1437503581]
+transform = Transform3D(0.9287752, 0, 0, 0, 1.1545652, 0, 0, 0, 1, 0.020542622, 0.36063623, -0.51138246)
+shaded = true
+texture = ExtResource("3_xepks")

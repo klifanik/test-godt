@@ -87,23 +87,6 @@ offset_top = -2.0
 offset_right = -729.0
 script = ExtResource("3_4a2ha")
 
-[node name="KillsText" type="Label" parent="." unique_id=312563836]
-offset_left = 35.0
-offset_right = 496.509
-offset_bottom = 83.0
-theme_override_font_sizes/font_size = 40
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="CoinsText" type="Label" parent="." unique_id=396767904]
-offset_left = 35.0
-offset_top = 51.0
-offset_right = 496.50867
-offset_bottom = 134.0
-theme_override_font_sizes/font_size = 40
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
-
 [node name="+1" type="Label" parent="." unique_id=1505943107 groups=["lable"]]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 420.0
@@ -234,8 +217,24 @@ mouse_filter = 2
 
 [node name="DeathScreen" parent="." unique_id=2086862792 instance=ExtResource("1_mg525")]
 
+[node name="KillsText" type="Label" parent="." unique_id=312563836]
+offset_left = 35.0
+offset_right = 496.509
+offset_bottom = 83.0
+theme_override_font_sizes/font_size = 40
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CoinsText" type="Label" parent="." unique_id=396767904]
+offset_left = 35.0
+offset_top = 51.0
+offset_right = 496.50867
+offset_bottom = 134.0
+theme_override_font_sizes/font_size = 40
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="pause" parent="." unique_id=726788678 instance=ExtResource("6_g6s7q")]
-process_mode = 3
 
 [connection signal="button_down" from="PauseButton" to="PauseButton" method="_on_button_down"]
 [connection signal="button_up" from="PauseButton" to="PauseButton" method="_on_button_up"]

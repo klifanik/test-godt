@@ -6,6 +6,8 @@ extends Node
 @onready var minimap: CanvasLayer = $"../minimap"
 @onready var HUD: CanvasLayer = $"../CanvasLayer"
 
+@export var spawn_sound: AudioStream
+
 # --- Настройки сцен объектов (привяжите в Инспекторе) ---
 @export var small_home: PackedScene
 @export var middle_home: PackedScene
@@ -21,7 +23,7 @@ extends Node
 
 # --- Настройки зоны спавна и дистанции ---
 @export var spawn_area_size: Vector3 = Vector3(40, 0, 40)
-@export var min_distance_between_houses: float = 4.0 
+@export var min_distance_between_houses: float = 4.0
 
 var spawned_positions: Array[Vector3] = []
 
@@ -62,6 +64,7 @@ func spawn_homes(house_scene: PackedScene, spawn_y: float, is_arcade: bool) -> v
 	var free_position = get_random_free_position(spawn_y)
 	
 	if free_position != Vector3.ZERO:
+		SoundManager.play_sound_ui(spawn_sound)
 		var new_house = house_scene.instantiate()
 		add_child(new_house)
 		new_house.global_position = free_position

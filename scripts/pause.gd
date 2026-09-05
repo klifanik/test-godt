@@ -2,12 +2,15 @@ extends Control
 
 # Загружаем твою сцену настроек
 const SETTINGS_SCENE = preload("res://scenes/settings.tscn")
+@onready var cl: CanvasLayer = $".."
 
 # Храним ссылку на открытое окно настроек
 var current_settings: Control = null
 
-func _ready() -> void:
-	pass
+@export var game_sound: AudioStream
+
+var counr: int = 0
+var killas: int = 0
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause") and not $"../DeathScreen".visible and $"../../minimap".visible:
@@ -19,11 +22,13 @@ func _input(event: InputEvent) -> void:
 			if get_tree().paused:
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				set_paused(false)
+				SoundManager.play_music(game_sound)
 			else:
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				set_paused(true)
 
 func set_paused(is_paused: bool) -> void:
+	SoundManager.stop_music()
 	# Если снимаем с паузы, а настройки были открыты — удаляем их
 	if not is_paused and is_instance_valid(current_settings):
 		_close_settings()
@@ -34,17 +39,33 @@ func set_paused(is_paused: bool) -> void:
 func _on_continue_pressed() -> void:
 	set_paused(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	SoundManager.play_music(game_sound)
 
 func _on_exit_pressed() -> void:
 	set_paused(false)
 	Engine.time_scale = 1.0
-	SaveManager.player_data["coins"] += Global.Coins
+	
+	killas = Global.kills
+	for i in range(Global.Coins):
+		Global.DelCoin()
+		cl.get_node("CoinsText").text = tr("KEY_COINSLABEL") % Global.Coins
+		counr += 1
+		
+	for i in range(Global.kills):
+		Global.DelKill()
+		cl.get_node("KillsText").text = tr("KEY_KILLSLABEL") % Global.kills
+		counr += 2
+		
+	SaveManager.player_data["coins"] += counr
 	if SaveManager.player_data["kills"] < Global.kills:
 		SaveManager.player_data["kills"] = Global.kills
 	SaveManager.save_game()
 	Global.kills = 0
 	Global.Coins = 0
-	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
+	
+	var success = await SaveManager.show_regular_ad()
+	if success:
+		get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
 
 # ─── ИЗМЕНЕННАЯ ФУНКЦИЯ НАСТРОЕК ──────────────────────────────────────
 func _on_settings_pressed() -> void:
@@ -70,6 +91,17 @@ func _close_settings() -> void:
 	
 	# Возвращаем видимость меню паузы
 	visible = true
+	
+	var player = get_tree().get_first_node_in_group("player")
+	player.update_label(Global.Coins)
+	player.update_health_ui()
+	
+	cl.get_node("KillsText").text = tr("KEY_KILLSLABEL") % Global.kills
+	
+	var pistol = get_tree().get_first_node_in_group("weapon")
+	pistol._send_ammo_signal()
+	
+	cl.get_node("DeathScreen")._ready()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:

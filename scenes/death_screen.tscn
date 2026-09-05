@@ -1,45 +1,9 @@
 [gd_scene format=3 uid="uid://bt5f5jja1gunb"]
 
 [ext_resource type="Script" uid="uid://cvi2xpvtod246" path="res://scripts/death_screen.gd" id="1_uyutr"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jka67"]
-bg_color = Color(0, 0.26666668, 0.8352941, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5arm"]
-bg_color = Color(0, 0.14901961, 0.5137255, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 16
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wc5p8"]
-bg_color = Color(0.20784314, 0.4627451, 1, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 16
+[ext_resource type="AudioStream" uid="uid://ckixc4tsw35wc" path="res://music&sound/game.ogg" id="2_mqh5l"]
+[ext_resource type="AudioStream" uid="uid://clkoi3vy7jush" path="res://music&sound/main.ogg" id="3_7ns25"]
+[ext_resource type="AudioStream" uid="uid://lnj1jviy7jrf" path="res://music&sound/balance.wav" id="4_7ns25"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ns25"]
 bg_color = Color(0.62352943, 0.5176471, 0, 1)
@@ -69,6 +33,45 @@ corner_detail = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfw3d"]
 bg_color = Color(0.8074567, 0.67287296, 1.1551381e-06, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jka67"]
+bg_color = Color(0, 0.26666668, 0.8352941, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i5arm"]
+bg_color = Color(0, 0.14901961, 0.5137255, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wc5p8"]
+bg_color = Color(0.20784314, 0.4627451, 1, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -128,6 +131,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uyutr")
+game_sound = ExtResource("2_mqh5l")
+main_sound = ExtResource("3_7ns25")
+balance_sound = ExtResource("4_7ns25")
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=707686582]
@@ -159,6 +165,37 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="coinsall" type="Label" parent="." unique_id=924963723]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -156.0
+offset_top = -35.0
+offset_right = 156.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ad_btn" type="Button" parent="." unique_id=1613158414]
+layout_mode = 0
+offset_left = 375.0
+offset_top = 1000.0
+offset_right = 905.0
+offset_bottom = 1091.0
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ns25")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gwety")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wfw3d")
+text = "KEY_RESPAWNAD"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=425924963]
 layout_mode = 1
 anchors_preset = 8
@@ -184,15 +221,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_i5arm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wc5p8")
 text = "KEY_RESTART_GAME"
 
-[node name="ad_btn" type="Button" parent="VBoxContainer" unique_id=1613158414]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxFlat_7ns25")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_gwety")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wfw3d")
-text = "KEY_RESPAWNAD"
-
 [node name="exit_btn" type="Button" parent="VBoxContainer" unique_id=1044004333]
 layout_mode = 2
 size_flags_vertical = 3
@@ -202,6 +230,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_dwo6e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mqh5l")
 text = "KEY_EXITBUTTON"
 
+[connection signal="pressed" from="ad_btn" to="." method="_on_ad_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/restart_btn" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ad_btn" to="." method="_on_ad_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/exit_btn" to="." method="_on_exit_btn_pressed"]

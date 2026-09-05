@@ -11,6 +11,8 @@ extends CharacterBody3D
 
 @export var minimap_color: Color = Color.RED
 
+@export var kill_sound: AudioStream
+
 var can_attack: bool = true
 var player = null
 
@@ -20,7 +22,7 @@ func _ready() -> void:
 	# Даем время всем узлам загрузиться
 	await get_tree().process_frame
 	find_player()
-	update_label(Global.kills)
+	cl.get_node("KillsText").text = tr("KEY_KILLSLABEL") % Global.kills
 	
 	_create_minimap_marker()
 
@@ -76,19 +78,17 @@ func _physics_process(delta: float) -> void:
 # Функция, которую вызовет пуля при попадании
 func hit() -> void:
 	Global.AddKill()
-	update_label(Global.kills)
+	cl.get_node("KillsText").text = tr("KEY_KILLSLABEL") % Global.kills
 	get_tree().get_first_node_in_group("lable").play_effect(0)
+	
+	SoundManager.play_sound_3d(kill_sound, global_position)
+	
 	for i in range(10): # Создаем 10 шариков
 		var ball = ball_scene.instantiate()
 		get_tree().root.add_child(ball) # Добавляем в корень сцены
 		ball.global_position = global_position
+		
 	queue_free() # Удаляет зомби из сцены
-	
-
-func update_label(c: int) -> void:
-	var localized_text = tr("KEY_KILLSLABEL")
-	if cl:
-		cl.get_node("KillsText").text = localized_text % c
 	
 	
 func attack_player() -> void:

@@ -2,6 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://cv1l5v3gobygi" path="res://shaders/new_shader.gdshader" id="1_f1d2v"]
 [ext_resource type="Script" uid="uid://bc6t5ccpq04ha" path="res://scripts/pause.gd" id="1_r8yp4"]
+[ext_resource type="AudioStream" uid="uid://ckixc4tsw35wc" path="res://music&sound/game.ogg" id="2_m0klm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r8yp4"]
 shader = ExtResource("1_f1d2v")
@@ -134,6 +135,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r8yp4")
+game_sound = ExtResource("2_m0klm")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=927988058]
 process_mode = 3

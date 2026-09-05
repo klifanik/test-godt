@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://lm4xg41ornj5" path="res://scripts/main_menu.gd" id="1_yqorp"]
 [ext_resource type="Texture2D" uid="uid://beu60g0iy7qjk" path="res://textures/background.png" id="2_0ykhv"]
 [ext_resource type="Shader" uid="uid://ck1srgvnqdukv" path="res://shaders/MainMenu.gdshader" id="2_2wh52"]
+[ext_resource type="AudioStream" uid="uid://clkoi3vy7jush" path="res://music&sound/main.ogg" id="4_ow34m"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2wh52"]
 texture = ExtResource("2_0ykhv")
@@ -157,7 +158,8 @@ grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 8
 theme_override_font_sizes/font_size = 60
-text = "Really cool game vs zombie"
+text = "KEY_GAMENAME"
+horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Record" type="Label" parent="." unique_id=671215629]
@@ -188,6 +190,12 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1846275885]
+stream = ExtResource("4_ow34m")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
 
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

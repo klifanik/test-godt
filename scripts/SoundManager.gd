@@ -1,12 +1,14 @@
 extends Node
 
 # --- НАСТРОЙКИ 3D ПО УМОЛЧАНИЮ ---
-@export var default_attenuation_start: float = 1.0  # Дистанция, с которой звук начинает затухать
+@export var default_attenuation_start: float = 3.0  # Дистанция 100% громкости (поднял до 3.0, чтобы звуки не были тихими)
 @export var default_max_distance: float = 30.0     # Максимальная дистанция слышимости
 
 # Словарь для отслеживания кулдаунов (чтобы звуки не вызывались слишком часто)
 var _cooldowns: Dictionary = {}
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 ## 1. Обычный 3D-звук (одноразовый: выстрел, шаг, удар)
 ## Автоматически удаляется из памяти после завершения.
@@ -22,7 +24,6 @@ func play_sound_3d(
 		
 	var player = AudioStreamPlayer3D.new()
 	player.stream = stream
-	player.global_position = position
 	player.bus = bus_name
 	
 	player.unit_size = default_attenuation_start
@@ -31,7 +32,10 @@ func play_sound_3d(
 	if pitch_randomness > 0.0:
 		player.pitch_scale = randf_range(1.0 - pitch_randomness, 1.0 + pitch_randomness)
 		
+	# ВАЖНО: сначала добавляем в дерево сцены, затем ставим 3D-позицию
 	add_child(player)
+	player.global_position = position
+	
 	player.play()
 	
 	# Автоудаление узла после окончания воспроизведения
@@ -73,12 +77,14 @@ func play_looping_sound_3d(
 		
 	var player = AudioStreamPlayer3D.new()
 	player.stream = stream
-	player.global_position = position
 	player.bus = bus_name
 	player.unit_size = default_attenuation_start
 	player.max_distance = default_max_distance
 	
+	# ВАЖНО: сначала добавляем в дерево сцены, затем ставим 3D-позицию
 	add_child(player)
+	player.global_position = position
+	
 	player.play()
 	
 	return player
@@ -104,3 +110,31 @@ func play_sound_ui(
 	player.play()
 	
 	player.finished.connect(player.queue_free)
+
+
+# Переменная для хранения текущей фоновой музыки
+var current_music_player: AudioStreamPlayer = null
+
+## Функция для запуска фоновой музыки
+func play_music(stream: AudioStream, bus_name: String = "Music") -> void:
+	if stream == null:
+		return
+		
+	# Если музыка УЖЕ играет — останавливаем старый трек перед запуском нового
+	if current_music_player != null:
+		current_music_player.stop()
+		current_music_player.queue_free()
+		
+	current_music_player = AudioStreamPlayer.new()
+	current_music_player.stream = stream
+	current_music_player.bus = bus_name
+	
+	add_child(current_music_player)
+	current_music_player.play()
+
+## Функция для остановки музыки (например, при выходе в главное меню)
+func stop_music() -> void:
+	if current_music_player != null:
+		current_music_player.stop()
+		current_music_player.queue_free()
+		current_music_player = null

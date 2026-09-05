@@ -28,6 +28,7 @@ SaveManager="*uid://cu150gk24g7mb"
 Global="*uid://cv3apgsqu4y0h"
 WebBus="*uid://cl67jomjoft1a"
 SoundManager="*uid://sc04nkxyiit"
+HitboxDebugger="*uid://drl8bc4acbq1q"
 
 [display]
 
@@ -45,6 +46,7 @@ enabled=PackedStringArray("res://addons/webbus/plugin.cfg")
 player=""
 zombie=""
 lable=""
+weapon=""
 
 [input]
 
@@ -167,7 +169,6 @@ pause={
 [internationalization]
 
 locale/translations=PackedStringArray("res://translate/translations.ru.translation", "res://translate/translations.en.translation")
-locale/test="en"
 
 [layer_names]
 

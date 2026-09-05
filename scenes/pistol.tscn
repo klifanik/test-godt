@@ -2,17 +2,23 @@
 
 [ext_resource type="ArrayMesh" uid="uid://dvxq45dwku5tc" path="res://Voxel Weapon Pack/model_3.obj" id="1_igbvm"]
 [ext_resource type="Script" uid="uid://d1jaijanipgt" path="res://scripts/pistol.gd" id="2_buff3"]
+[ext_resource type="AudioStream" uid="uid://jat2iootmfvx" path="res://music&sound/shoot.wav" id="3_1e3ry"]
+[ext_resource type="AudioStream" uid="uid://duvjic8usosoj" path="res://music&sound/reload.wav" id="4_t6oaa"]
+[ext_resource type="AudioStream" uid="uid://bag73hgkqv21n" path="res://music&sound/noammo.wav" id="5_4hq71"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fb3t6"]
 albedo_color = Color(0.16470589, 0.16470589, 0.16470589, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_buff3"]
 
-[node name="pistol" type="MeshInstance3D" unique_id=467580052]
+[node name="pistol" type="MeshInstance3D" unique_id=467580052 groups=["weapon"]]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = ExtResource("1_igbvm")
 surface_material_override/0 = SubResource("StandardMaterial3D_fb3t6")
 script = ExtResource("2_buff3")
+shoot_sound = ExtResource("3_1e3ry")
+reload_sound = ExtResource("4_t6oaa")
+noammo_sound = ExtResource("5_4hq71")
 
 [node name="Muzzle" type="Marker3D" parent="." unique_id=1464688985]
 

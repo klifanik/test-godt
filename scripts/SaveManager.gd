@@ -11,7 +11,8 @@ var player_data: Dictionary = {
 	"language": "",
 	"music": 1.0,
 	"sounds": 1.0,
-	"hitboxes": false
+	"hitboxes": false,
+	"fullscreen": true
 }
 
 var _is_reward_earned: bool = false
@@ -21,6 +22,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	print("[SaveManager] Глобальный менеджер запущен.")
 	load_game_local()
+	setup_webgl_focus_mute()
 	
 	if OS.has_feature("web") and has_node("/root/WebBus"):
 		if WebBus.has_signal("ad_closed"):
@@ -40,6 +42,16 @@ func _ready() -> void:
 				print("[SaveManager] Облако задержалось. Запуск принудительного опроса SDK.")
 				setup_yandex_localization()
 		)
+		
+func _notification(what: int) -> void:
+	# Пользователь свернул вкладку или переключил окно
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
+		get_tree().paused = true
+	# Пользователь вернулся в игру
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
+		get_tree().paused = false
 
 # Этот метод перехватывает клик/движение мыши для возврата фокуса в браузер
 func _input(event: InputEvent) -> void:
@@ -87,6 +99,9 @@ func setup_yandex_localization() -> void:
 	var ya_lang = "" 
 	var found_lang = false
 	
+	if player_data["language"] != "":
+		return
+	
 	# ОПРАШИВАЕМ ТОЛЬКО ЯНДЕКС SDK И ПЛАГИН
 	if OS.has_feature("web") and has_node("/root/WebBus"):
 		# 1. Проверяем словарь в WebBus
@@ -132,7 +147,7 @@ func setup_yandex_localization() -> void:
 	self.set_meta("lang_setup_done", true)
 
 	# ПРИМЕНЕНИЕ ЯЗЫКА В GODOT
-	var supported_languages = ["ru", "en", "tr"] 
+	var supported_languages = ["ru", "en"] 
 	
 	if ya_lang in supported_languages:
 		TranslationServer.set_locale(ya_lang)
@@ -150,26 +165,34 @@ func setup_yandex_localization() -> void:
 func show_regular_ad() -> bool:
 	if OS.has_feature("web") and has_node("/root/WebBus"):
 		get_tree().paused = true
+		# 🤫 ГЛУШИМ ВЕСЬ ЗВУК
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
+		
 		WebBus.show_ad()
-		# Ждем завершения или таймер подстраховки
-		await AnySignals([self.interstitial_ad_finished, get_tree().create_timer(5.0).timeout])
+		await self.interstitial_ad_finished
+		
+		# 🔊 ВКЛЮЧАЕМ ЗВУК ОБРАТНО
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
 		get_tree().paused = false
-		return true # В вебе реклама прошла (или сработал таймер)
+		return true
 	else:
-		# На ПК рекламы нет, сразу возвращаем true, чтобы игра шла дальше
 		return true
 
 func show_rewarded_ad() -> bool:
 	_is_reward_earned = false
 	if OS.has_feature("web") and has_node("/root/WebBus"):
 		get_tree().paused = true
+		# 🤫 ГЛУШИМ ВЕСЬ ЗВУК
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
+		
 		WebBus.show_rewarded_ad()
-		# Ждем окончания видео
-		await AnySignals([self.rewarded_ad_finished, get_tree().create_timer(8.0).timeout])
+		await self.rewarded_ad_finished
+		
+		# 🔊 ВКЛЮЧАЕМ ЗВУК ОБРАТНО
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), false)
 		get_tree().paused = false
-		return _is_reward_earned # Вернет true, если Яндекс подтвердил награду
+		return _is_reward_earned
 	else:
-		# На ПК рекламы нет, сразу выдаем награду для тестов
 		_is_reward_earned = true
 		return true
 
@@ -198,31 +221,75 @@ func AnySignals(signals: Array) -> Signal:
 		if sig is Signal:
 			sig.connect(func(_a=null): dummy_signal.emit(), ConnectFlags.CONNECT_ONE_SHOT)
 	return dummy_signal
+	
+func call_game_ready() -> void:
+	if OS.has_feature("web") and has_node("/root/WebBus"):
+		var web_bus = get_node("/root/WebBus")
+		if web_bus.has_method("ready"):
+			print("[SaveManager] Отправляем сигнал готовности через WebBus.ready()")
+			web_bus.call("ready")
 
 func reset_all_data_completely() -> void:
 	print("[SaveManager] ЗАПУСК ПОЛНОГО СБРОСА ДАННЫХ...")
 	
-	# 1. Возвращаем словарь к начальным дефолтным значениям
-	var player_data: Dictionary = {
+	# 1. Перезаписываем ГЛОБАЛЬНУЮ переменную (без var!)
+	player_data = {
 		"coins": 0,
 		"kills": 0,
 		"language": "",
 		"music": 1.0,
 		"sounds": 1.0,
-		"hitboxes": false
+		"hitboxes": false,
+		"fullscreen": true
 	}
 	
-	# 2. Удаляем локальный файл с ПК
-	if FileAccess.file_exists(SAVE_FILE_PATH):
-		var dir = DirAccess.open("user://")
-		if dir:
-			dir.remove("save_game.dat")
-			print("[SaveManager] Локальный файл сохранения удален.")
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(1.0))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(1.0))
 	
-	# 3. Отправляем пустой словарь в Яндекс Облако
-	if OS.has_feature("web") and has_node("/root/WebBus") and WebBus.has_method("save_data"):
-		WebBus.save_data(player_data)
-		print("[SaveManager] Облако Яндекса перезаписано дефолтными данными.")
-		
-	# 4. Перезагружаем текущую сцену, чтобы интерфейс сразу обновился
+	# 2. Вызываем стандартное сохранение (оно само запишет файл и отправит в WebBus)
+	save_game()
+	
+	# 3. Перезагружаем текущую сцену, чтобы UI обновился
 	get_tree().reload_current_scene()
+	
+	
+func setup_webgl_focus_mute() -> void:
+	if not OS.has_feature("web"):
+		return
+		
+	var js_code = """
+	(function() {
+		if (window.__webgl_focus_setup) return;
+		window.__webgl_focus_setup = true;
+
+		function muteAudio(mute) {
+			// Перебираем все аудио-контексты WebAudio, которые создает Godot
+			if (window.AudioContext || window.webkitAudioContext) {
+				var contexts = [window.godotAudioContext];
+				contexts.forEach(function(ctx) {
+					if (ctx) {
+						if (mute && ctx.state === 'running') {
+							ctx.suspend();
+						} else if (!mute && ctx.state === 'suspended') {
+							ctx.resume();
+						}
+					}
+				});
+			}
+		}
+
+		// 1. Потеря/возврат фокуса вкладки
+		document.addEventListener('visibilitychange', function() {
+			if (document.hidden) {
+				muteAudio(true);
+			} else {
+				muteAudio(false);
+			}
+		});
+
+		// 2. Дополнительная страховка на расфокус окна
+		window.addEventListener('blur', function() { muteAudio(true); });
+		window.addEventListener('focus', function() { muteAudio(false); });
+	})();
+	"""
+	JavaScriptBridge.eval(js_code)

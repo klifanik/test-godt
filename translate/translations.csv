@@ -12,7 +12,7 @@ KEY_COINSALL,Coins: %d,Монеты: %d
 KEY_KILLSALL,Record hits: %d,Рекорд попаданий: %d
 KEY_YOULEAVE,Are you sure you want to leave?,Вы уверены что хотите выйти?
 KEY_CONTINUE,Continue,Продолжить
-KEY_AMMOMACHINE,8 Ammo = 5 Coins,8 Патронов = 5 монет
+KEY_AMMOMACHINE,8 Ammo = 3 Coins,8 Патронов = 3 монеты
 KEY_AMMOLABEL,Ammo: %d / %d (%d),Патроны: %d / %d (%d)
 KEY_GETAPCAK,Press [E] to buy ammo,Нажмите [E] чтобы купить патроны
 KEY_NEEDMORE,Need more coins,Нужно больше монет
@@ -21,3 +21,13 @@ KEY_MUSIC,Music,Музыка
 KEY_SOUNDS,Sounds,Звуки
 KEY_RESET,Reset all your data,Сбросить весь прогресс
 KEY_HITBOXES,Hitboxes,Хитбоксы
+KEY_TOOLTIP_MUSIC,Changes the background music volume in the game,Меняет громкость фоновой музыки в игре
+KEY_TOOLTIP_SOUND,Changes the background sounds volume in the game,Меняет громкость фоновых звуков в игре
+KEY_TOOLTIP_HITBOXES,Enable/Disable hitboxes in the game,Включает/Выключает хитбоксы в игре
+KEY_TOOLTIP_LANGUAGE,Change language,Сменить язык
+KEY_TOOLTIP_RESET,Reset absolutely all game data,Сбросить абсолютно весь прогресс в игре
+KEY_SHOP,Shop (soon..),Магазин (скоро...)
+KEY_COINSEARN,Earned coins: %d,Заработано монет: %d
+KEY_FULLSCREEN,Full screen,На весь экран
+KEY_TOOLTIP_FULLSCREEN,Open the game in full screen mode,Открыть игру во весь экран
+KEY_GAMENAME,Capsule Assault,Капсульный Штурм
