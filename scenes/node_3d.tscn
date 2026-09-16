@@ -138,6 +138,7 @@ offset_bottom = 650.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_q712h")
 
 [node name="CanvasLayer" parent="." unique_id=1910997145 instance=ExtResource("4_xvgsr")]
+visible = true
 
 [node name="map_objects" type="Node" parent="." unique_id=53644941]
 process_mode = 3

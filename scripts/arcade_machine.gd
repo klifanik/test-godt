@@ -5,12 +5,21 @@ extends Area3D
 var is_player_inside: bool = false
 var player_body: Node3D = null
 
+var is_mobile: bool = false
+
 @export var buy_sound: AudioStream
 @export var needmore_sound: AudioStream
 
 func _ready() -> void:
-	get_node("/root/main/CanvasLayer/PreesToBuy").visible = false
+	get_node("/root/main/CanvasLayer/PressToBuy").visible = false
 	_create_minimap_marker()
+	
+	if OS.get_name() == "Android" or OS.get_name() == "iOS":
+		is_mobile = true
+	elif OS.get_name() == "Web":
+		is_mobile = DisplayServer.is_touchscreen_available()
+	else:
+		is_mobile = false
 
 func _process(delta: float) -> void:
 	if is_player_inside and Input.is_action_just_pressed("interact"):
@@ -33,13 +42,19 @@ func _on_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		is_player_inside = true
 		player_body = body
-		get_node("/root/main/CanvasLayer/PreesToBuy").visible = true
+		if is_mobile:
+			get_node("/root/main/CanvasLayer/PressToBuy").text = tr("KEY_GETAPACK_MOBILE")
+			get_node("/root/main/CanvasLayer/MobileControls/use").visible = true
+		else:
+			get_node("/root/main/CanvasLayer/PressToBuy").text = tr("KEY_GETAPACK_PC")
+		get_node("/root/main/CanvasLayer/PressToBuy").visible = true
 
 func _on_body_exited(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		is_player_inside = false
 		player_body = null
-		get_node("/root/main/CanvasLayer/PreesToBuy").visible = false
+		get_node("/root/main/CanvasLayer/PressToBuy").visible = false
+		get_node("/root/main/CanvasLayer/MobileControls/use").visible = false
 		
 
 func _create_minimap_marker() -> void:

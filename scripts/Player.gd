@@ -58,7 +58,7 @@ func _ready() -> void:
 		
 	shoot_button.visible = is_mobile
 	reload_button.visible = is_mobile
-	use_button.visible = is_mobile
+	use_button.visible = false
 			
 	_init_weapon()
 	_create_minimap_marker()
@@ -69,6 +69,7 @@ func _ready() -> void:
 	Global.Coins = 0
 	update_health_ui()
 	update_label(Global.Coins)
+	cl.get_node("KillsText").text = tr("KEY_KILLSLABEL") % Global.kills
 	
 	SoundManager.play_music(game_sound)
 

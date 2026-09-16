@@ -1,9 +1,5 @@
 extends Control
 
-signal shoot_pressed
-signal reload_pressed
-signal interact_pressed
-
 @onready var shoot_btn: TouchScreenButton = $shoot
 @onready var reload_btn: TouchScreenButton = $reload
 @onready var interact_btn: TouchScreenButton = $use

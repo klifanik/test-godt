@@ -24,7 +24,7 @@ func _ready() -> void:
 	$Coins.text = tr("KEY_COINSALL") % SaveManager.player_data.get("coins", 0)
 	$Record.text = tr("KEY_KILLSALL") % SaveManager.player_data.get("kills", 0)
 	
-	SaveManager.call_game_ready()
+	#SaveManager.call_game_ready()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED:
@@ -44,17 +44,17 @@ func _notification(what: int) -> void:
 func _on_button_pressed() -> void:
 	print("[PlayButton] Клик по кнопке Играть. Запрашиваем рекламу...")
 	
-	# Теперь функция возвращает true, и условие сработает!
-	var success = await SaveManager.show_regular_ad()
-	
-	if success:
-		print("[PlayButton] Рекламный блок завершен. Возвращаем фокус и загружаем уровень.")
+	## Теперь функция возвращает true, и условие сработает!
+	#var success = await SaveManager.show_regular_ad()
+	#
+	#if success:
+		#print("[PlayButton] Рекламный блок завершен. Возвращаем фокус и загружаем уровень.")
 		
-		if OS.has_feature("web"):
-			JavaScriptBridge.eval("window.focus();")
+		#if OS.has_feature("web"):
+			#JavaScriptBridge.eval("window.focus();")
 		
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		get_tree().change_scene_to_file(NEXT_LEVEL_PATH)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	get_tree().change_scene_to_file(NEXT_LEVEL_PATH)
 		
 func _on_button_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/settings.tscn")
@@ -64,5 +64,5 @@ func _on_button_3_pressed() -> void:
 		get_tree().quit()
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel") and OS.get_name() != "Web":
 		get_tree().quit()

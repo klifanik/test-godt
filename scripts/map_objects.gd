@@ -23,11 +23,16 @@ extends Node
 
 # --- Настройки зоны спавна и дистанции ---
 @export var spawn_area_size: Vector3 = Vector3(40, 0, 40)
-@export var min_distance_between_houses: float = 4.0
+@export var min_distance_between_houses: float = 8.0 # Увеличено для габаритов домов
+@export var min_distance_for_arcade: float = 4.0      # Минимальный отступ автомата от домов
+@export var center_safe_zone_size: float = 2.5        # Радиус безопасной зоны 5x5 (от -2.5 до +2.5 по X и Z)
 
 var spawned_positions: Array[Vector3] = []
 
 func _ready() -> void:
+	# Добавляем нод в группу, чтобы скрипт спавна зомби мог легко найти позиции домов
+	add_to_group("MapGenerator")
+	
 	get_tree().paused = true
 	$"../CanvasLayer".visible = false
 	$"../minimap".visible = false
@@ -55,13 +60,12 @@ func generate_map() -> void:
 				
 			for j in range(house["count"]):
 				await get_tree().create_timer(0.05, true).timeout
-				# Передаем новый параметр флага автомата
 				spawn_homes(house["scene"], house["spawn_y"], house["is_arcade"])
 				
 	start_camera_flight()
 
 func spawn_homes(house_scene: PackedScene, spawn_y: float, is_arcade: bool) -> void:
-	var free_position = get_random_free_position(spawn_y)
+	var free_position = get_random_free_position(spawn_y, is_arcade)
 	
 	if free_position != Vector3.ZERO:
 		SoundManager.play_sound_ui(spawn_sound)
@@ -71,31 +75,38 @@ func spawn_homes(house_scene: PackedScene, spawn_y: float, is_arcade: bool) -> v
 		
 		# Если это игровой автомат — разворачиваем его к центру мира
 		if is_arcade:
-			# Центр мира на той же высоте, что и сам автомат, чтобы его не наклоняло вверх/вниз
 			var center_target = Vector3(0.0, spawn_y, 0.0)
-			
-			# Защита: проверяем, что автомат заспавнился не ровно в центре
 			if free_position.distance_to(center_target) > 0.1:
-				# look_at заставляет ось -Z объекта смотреть на цель
 				new_house.look_at(center_target, Vector3.UP)
 		
 		spawned_positions.append(free_position)
 	else:
 		print("Не удалось найти свободное место для объекта на высоте Y = ", spawn_y)
 
-func get_random_free_position(spawn_y: float) -> Vector3:
-	var max_attempts = 30 
+func get_random_free_position(spawn_y: float, is_arcade: bool) -> Vector3:
+	var max_attempts = 100
 	var attempt = 0
+	
+	var required_distance = min_distance_for_arcade if is_arcade else min_distance_between_houses
 	
 	while attempt < max_attempts:
 		var random_x = randf_range(-spawn_area_size.x, spawn_area_size.x)
 		var random_z = randf_range(-spawn_area_size.z, spawn_area_size.z)
-		var target_pos = Vector3(random_x, spawn_y, random_z)
 		
+		# Проверка 1: Запрет спавна в центральной зоне 5x5 (от -2.5 до +2.5 по X и Z)
+		if abs(random_x) <= center_safe_zone_size and abs(random_z) <= center_safe_zone_size:
+			attempt += 1
+			continue
+		
+		var target_pos = Vector3(random_x, spawn_y, random_z)
 		var position_is_free = true
 		
+		# Проверка 2: Расстояние до уже созданных объектов только по осям X и Z
 		for pos in spawned_positions:
-			if target_pos.distance_to(pos) < min_distance_between_houses:
+			var pos_2d_existing = Vector2(pos.x, pos.z)
+			var pos_2d_target = Vector2(target_pos.x, target_pos.z)
+			
+			if pos_2d_target.distance_to(pos_2d_existing) < required_distance:
 				position_is_free = false
 				break 
 				
@@ -105,7 +116,6 @@ func get_random_free_position(spawn_y: float) -> Vector3:
 		attempt += 1
 		
 	return Vector3.ZERO
-
 
 func start_camera_intro() -> void:
 	if top_camera == null or player_node == null:

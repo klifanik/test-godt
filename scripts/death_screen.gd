@@ -68,9 +68,10 @@ func _on_exit_btn_pressed() -> void:
 	Global.kills = 0
 	Global.Coins = 0
 	$".".visible = false
-	var success = await SaveManager.show_regular_ad()
-	if success:
-		get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#var success = await SaveManager.show_regular_ad()
+	#if success:
+	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
 
 
 func _on_ad_btn_pressed() -> void:

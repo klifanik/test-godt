@@ -22,7 +22,6 @@ func _ready() -> void:
 	# Даем время всем узлам загрузиться
 	await get_tree().process_frame
 	find_player()
-	cl.get_node("KillsText").text = tr("KEY_KILLSLABEL") % Global.kills
 	
 	_create_minimap_marker()
 
